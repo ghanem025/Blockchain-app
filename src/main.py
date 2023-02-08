@@ -15,8 +15,15 @@ import json
 # Flask is for creating the web
 # app and jsonify is for
 # displaying the blockchain
+from flask import Blueprint
 from flask import Flask, jsonify
+from . import db
 
+
+def get_name():
+	return "John Bacon"
+def get_age():
+	return 30
 
 class Blockchain:
 
@@ -31,7 +38,9 @@ class Blockchain:
 	# to add further blocks
 	# into the chain
 	def create_block(self, proof, previous_hash):
-		block = {'index': len(self.chain) + 1,
+		block = {'name': get_name(),
+				'age': get_age(),
+				'index': len(self.chain) + 1,
 				'timestamp': str(datetime.datetime.now()),
 				'proof': proof,
 				'previous_hash': previous_hash}
@@ -87,16 +96,23 @@ class Blockchain:
 
 # Creating the Web
 # App using flask
-app = Flask(__name__)
+main = Blueprint('main', __name__)
 
 # Create the object
 # of the class blockchain
 blockchain = Blockchain()
 
+#default route
+@main.route('/')
+def index():
+	return 'index.html'
+
+@main.route('/info')
+def info():
+	return 'info.html'
+
 # Mining a new block
-
-
-@app.route('/mine_block', methods=['GET'])
+@main.route('/mine_block', methods=['GET'])
 def mine_block():
 	previous_block = blockchain.print_previous_block()
 	previous_proof = previous_block['proof']
@@ -109,31 +125,22 @@ def mine_block():
 				'timestamp': block['timestamp'],
 				'proof': block['proof'],
 				'previous_hash': block['previous_hash']}
-
 	return jsonify(response), 200
 
 # Display blockchain in json format
-
-
-@app.route('/get_chain', methods=['GET'])
+@main.route('/get_chain', methods=['GET'])
 def display_chain():
 	response = {'chain': blockchain.chain,
 				'length': len(blockchain.chain)}
 	return jsonify(response), 200
 
 # Check validity of blockchain
-
-
-@app.route('/valid', methods=['GET'])
+@main.route('/valid', methods=['GET'])
 def valid():
 	valid = blockchain.chain_valid(blockchain.chain)
-
 	if valid:
 		response = {'message': 'The Blockchain is valid.'}
 	else:
 		response = {'message': 'The Blockchain is not valid.'}
 	return jsonify(response), 200
 
-
-# Run the flask server locally
-app.run(host='127.0.0.1', port=5000)

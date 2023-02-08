@@ -12,13 +12,6 @@ $ python3 -m venv venv
 $ source venv/bin/activate
 ```
 
-# Installing Flask
-Installing flask is simple, just run this command.
-
-```bash
-$ pip install Flask
-```
-
 # Import libraries
 Once you have the virtual enviornment setup, you can now import all the neccesary python libraries using `requirements.txt`
 
@@ -26,13 +19,12 @@ Once you have the virtual enviornment setup, you can now import all the neccesar
 $ pip install -r requirements.txt
 ```
 
-
-
 # How to run the app
 First you need to go into the source directory and run the `flask --app main.py run` command
 ```bash
-$ cd src
+$ ./export.sh
+# if you already exported the env variable then you don't need to do this. (only need to run it once)
 
-$ flask --app main.py run
+$ flask run
 ```
 If the app is running, you have succesfully setup this flask application.
