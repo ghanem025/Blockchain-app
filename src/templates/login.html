@@ -2,27 +2,42 @@
 {% block content %}
 <div>
     <h3>Login</h3>
-    <div>
-        <form method="POST" action="/login">
-            <div>
-                <div>
-                    <input type="email" name="email" placeholder="Your Email" autofocus="">
-                </div>
+    <form>
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+          <input type="email" id="user" class="form-control" />
+          <label class="form-label" for="user">Email address</label>
+        </div>
+      
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+          <input type="password" id="user" class="form-control" />
+          <label class="form-label" for="user">Password</label>
+        </div>
+      
+        <!-- 2 column grid layout for inline styling -->
+        <div class="row mb-4">
+          <div class="col d-flex justify-content-center">
+            <!-- Checkbox -->
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="user" checked />
+              <label class="form-check-label" for="user"> Remember me </label>
             </div>
-            <div>
-                <div>
-                    <input type="password" name="password" placeholder="Your password">
-
-                </div>
-            </div>
-            <div>
-                <label>
-                    <input type="checkbox" name="remember">
-                    remember me
-                </label>
-            </div>
-            <button>Login</button>
-        </form>
-    </div>
+          </div>
+      
+          <div class="col">
+            <!-- Simple link -->
+            <a href="#!">Forgot password?</a>
+          </div>
+        </div>
+      
+        <!-- Submit button -->
+        <button type="button" class="btn btn-primary btn-block mb-4">Sign in</button>
+      
+        <!-- Register buttons -->
+        <div class="text-center">
+          <p>Not a member? <a href="#!">Register</a></p>
+        </div>
+      </form>
 </div>
 {% endblock %}
