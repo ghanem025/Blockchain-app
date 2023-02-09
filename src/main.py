@@ -17,7 +17,7 @@ import json
 # app and jsonify is for
 # displaying the blockchain
 from flask import Blueprint
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from . import db
 
 
@@ -106,11 +106,11 @@ blockchain = Blockchain()
 #default route
 @main.route('/')
 def index():
-	return 'index.html'
+	return render_template('base.html')
 
 @main.route('/info')
 def info():
-	return 'info.html'
+	return render_template('info.html')
 
 # Mining a new block
 @main.route('/mine_block', methods=['GET'])
