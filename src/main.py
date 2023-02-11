@@ -1,15 +1,9 @@
 # Python program to create Blockchain
-
 import json
-# Flask is for creating the web
-# app and jsonify is for
-# displaying the blockchain
 from flask import Blueprint
 from flask import Flask, jsonify, render_template
 from . import db
 from .blockchain import Blockchain
-
-blockchain = Blockchain()
 
 # Creating the Web
 # App using flask
@@ -39,5 +33,3 @@ def display_chain():
 	response = json.loads(json_str)
 	
 	return response
-
-
