@@ -16,11 +16,15 @@ blockchain = Blockchain()
 #default route
 @main.route('/')
 def index():
-	return render_template('base.html')
+	return render_template('index.html')
 
 @main.route('/info')
 def info():
 	return render_template('info.html')
+
+@main.route('/profile')
+def profile():
+	return render_template('profile.html')
 
 # Display blockchain in json format
 @main.route('/get_chain', methods=['GET'])

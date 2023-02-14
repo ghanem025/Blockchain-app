@@ -2,17 +2,26 @@
 {% block content %}
 <div>
     <h3>Login</h3>
-    <form>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="notification is-danger">
+          {{ messages[0] }}
+      </div>
+    {% endif %}
+    {% endwith %}
+    <form method="POST" action="/login">
         <!-- Email input -->
         <div class="form-outline mb-4">
-          <input type="email" id="user" class="form-control" />
           <label class="form-label" for="user">Email address</label>
+          <input type="email" id="user" class="form-control" />
+          
         </div>
       
         <!-- Password input -->
         <div class="form-outline mb-4">
-          <input type="password" id="user" class="form-control" />
           <label class="form-label" for="user">Password</label>
+          <input type="password" id="user" class="form-control" />
+          
         </div>
       
         <!-- 2 column grid layout for inline styling -->
@@ -20,8 +29,8 @@
           <div class="col d-flex justify-content-center">
             <!-- Checkbox -->
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="user" checked />
               <label class="form-check-label" for="user"> Remember me </label>
+              <input class="form-check-input" type="checkbox" value="" id="user" checked />
             </div>
           </div>
       
