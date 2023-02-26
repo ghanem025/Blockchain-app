@@ -44,7 +44,12 @@ def generate_key():
                                                    serialization.BestAvailableEncryption(password_byte))
     save_file("private_key.pem", encrypted_private_key)
 
-    return "key has been created"
+    public_key = private_key.public_key()
+    public_key_pem = public_key.public_bytes(encoding = serialization.Encoding.PEM, format = serialization.PublicFormat.SubjectPublicKeyInfo)
+
+    save_file("public_key.pem", public_key_pem)
+
+    return "keys have been created"
 
 
 
