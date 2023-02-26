@@ -1,9 +1,10 @@
 # Python program to create Blockchain
 import json
 from flask import Blueprint
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 from . import db
 from .blockchain import Blockchain
+
 
 # Creating the Web
 # App using flask
@@ -37,3 +38,11 @@ def display_chain():
 	response = json.loads(json_str)
 	
 	return response
+
+
+
+	
+	
+
+	
+

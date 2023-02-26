@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div>
+    <ul class="nav nav-pills">
+        <li class="nav-item"><a href="{{ url_for('auth.generate_key') }}" class="nav-link px-2 text-white">generate key</a></li>
+    </ul>
+
+    <form method="POST" action="/generate_key">
+        <div class="form-outline mb-4">
+            <div class="control">
+                <label class="form-label" for="user">Password</label>
+                <input class="form-control" type="password" name="password" placeholder="Enter password here" autofocus="">
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+{% endblock %}
