@@ -20,14 +20,6 @@ blockchain = Blockchain()
 def index():
 	return render_template('index.html')
 
-@main.route('/info')
-def info():
-	return render_template('info.html')
-
-@main.route('/profile')
-def profile():
-	return render_template('profile.html')
-
 # Display blockchain in json format
 @main.route('/get_chain', methods=['GET'])
 def display_chain():
@@ -56,7 +48,7 @@ def add_block():
 	prescription = request.form.get('prescription')
 	blockchain.add_new_transaction(1)
 	print(blockchain.mine(diagnosis, doctor, symptoms, treatment, prescription))
-	return 'chain'
+	return render_template('add_block.html')
 
 
 
