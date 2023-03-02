@@ -4,6 +4,7 @@ from flask import Blueprint
 from flask import Flask, jsonify, render_template, request
 from . import db
 from .blockchain import Blockchain
+from .blockchain import Block
 
 
 # Creating the Web
@@ -33,11 +34,24 @@ def display_chain():
 	chain_data = []
 	for block in blockchain.chain:
 		chain_data.append(block.__dict__)
+		print("A BLOCK")
 	json_str = json.dumps({'length': len(chain_data),
 							'chain': chain_data})
 	response = json.loads(json_str)
 	
 	return response
+
+@main.route('/adding_block', methods=['POST'])
+def add_block():
+	import time
+	name = request.form.get('name')
+	age = request.form.get('age')
+	diagnosis = request.form.get('diagnosis')
+	doctor = request.form.get('doctor')
+	blockchain.add_new_transaction(1)
+	print(blockchain.mine(name, age, diagnosis, doctor))
+	return 'chain'
+
 
 
 

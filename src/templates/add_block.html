@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <form method="POST" action="/adding_block">
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+          <label class="form-label" for="user">Name</label>
+          <input type="name" id="user" class="form-control" />
+          
+        </div>
+      
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+          <label class="form-label" for="user">Age</label>
+          <input type="age" id="user" class="form-control" />
+          
+        </div>
+        <div class="form-outline mb-4">
+            <label class="form-label" for="user">Diagnosis</label>
+            <input type="diagnosis" id="user" class="form-control" />
+        </div>
+        <div class="form-outline mb-4">
+            <label class="form-label" for="user">Doctor</label>
+            <input type="doctor" id="user" class="form-control" />
+        </div>
+        
+    </form>
+
+</div>
+{% endblock %}
