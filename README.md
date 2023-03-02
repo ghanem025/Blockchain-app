@@ -10,9 +10,9 @@ To run the application we need a virtual enviornment. Here are the steps to setu
 ```bash
 $ cd Blockchain-app
 
-$ python3 -m venv venv
+$ python3 -m venv .venv
 
-$ source venv/bin/activate
+$ source .venv/bin/activate
 ```
 
 # Import libraries
