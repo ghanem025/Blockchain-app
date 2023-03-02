@@ -10,8 +10,7 @@ print("blockchain implementation")
 class Block:
     # keep the previous hash in a block to semi-protect the chains integrity
     # we use a nonce value, a nonce value is a value or a number that can only be used once
-    def __init__(self, age, diagnosis, doctor, index, transaction, timestamp, previous_hash, nonce = 0):
-        self.age = age
+    def __init__(self,diagnosis, doctor, index, transaction, timestamp, previous_hash, nonce = 0):
         self.diagnosis = diagnosis
         self.doctor = doctor
         self.index = index
@@ -34,7 +33,7 @@ class Blockchain:
 
     
     def create_genesis_block(self):
-        first_block = Block("30", "flu", "Dr.Balls", 0, [], time.strftime('%X %x %Z'), "0") # I used time.strftime for an acurate date
+        first_block = Block("flu", "Dr.Balls", 0, [], time.strftime('%X %x %Z'), "0") # I used time.strftime for an acurate date
         first_block.hash = first_block.create_hash()
         self.chain.append(first_block)
     
@@ -77,12 +76,12 @@ class Blockchain:
     def add_new_transaction(self, transaction):
         self.unconfirmed_transactions.append(transaction)
 
-    def mine(self, age, diagnosis, doctor):
+    def mine(self, diagnosis, doctor):
         if not self.unconfirmed_transactions:
             return False
         last_blocK = self.last_blocK
 
-        new_block = Block(age, diagnosis, 
+        new_block = Block(diagnosis, 
         doctor, index=last_blocK.index + 1, 
         transaction=self.unconfirmed_transactions, 
         timestamp=time.strftime('%X %x %Z'),

@@ -48,11 +48,10 @@ def add_block_site():
 @main.route('/adding_block', methods=['POST'])
 def add_block():
 	import time
-	age = request.form.get('age')
 	diagnosis = request.form.get('diagnosis')
 	doctor = request.form.get('doctor')
 	blockchain.add_new_transaction(1)
-	print(blockchain.mine(age, diagnosis, doctor))
+	print(blockchain.mine(diagnosis, doctor))
 	return 'chain'
 
 
