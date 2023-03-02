@@ -6,7 +6,6 @@ from flask import Flask, jsonify, render_template, request
 from .blockchain import Blockchain
 from .blockchain import Block
 
-
 # Creating the Web
 # App using flask
 main = Blueprint('main', __name__)
@@ -18,43 +17,34 @@ blockchain = Blockchain()
 #default route
 @main.route('/')
 def index():
-	return render_template('index.html')
+    return render_template('index.html')
 
 # Display blockchain in json format
 @main.route('/get_chain', methods=['GET'])
 def display_chain():
-	chain_data = []
-	for block in blockchain.chain:
-		chain_data.append(block.__dict__)
-		print("A BLOCK")
-	json_str = json.dumps({'length': len(chain_data),
-							'chain': chain_data})
-	response = json.loads(json_str)
-	
-	return response
+    chain_data = []
+    for block in blockchain.chain:
+        chain_data.append(block.__dict__)
+        print("A BLOCK")
+    json_str = json.dumps({'length': len(chain_data),
+                            'chain': chain_data})
+    response = json.loads(json_str)
+    
+    return response
 
 @main.route('/adding_block')
 def add_block_site():
-	return render_template('add_block.html')
+    return render_template('add_block.html')
 
 @main.route('/adding_block', methods=['POST'])
 def add_block():
-	import time
-	diagnosis = request.form.get('diagnosis')
-	doctor = request.form.get('doctor')
-	symptoms = request.form.get('symptoms')
-	treatment = request.form.get('treatment')
-	prescription = request.form.get('prescription')
+    import time
+    diagnosis = request.form.get('diagnosis')
+    doctor = request.form.get('doctor')
+    symptoms = request.form.get('symptoms')
+    treatment = request.form.get('treatment')
+    prescription = request.form.get('prescription')
 
-	blockchain.add_new_transaction(1)
-	print(blockchain.mine(diagnosis, doctor, symptoms, treatment, prescription))
-	return render_template('add_block.html')
-
-
-
-
-	
-	
-
-	
-
+    blockchain.add_new_transaction(1)
+    print(blockchain.mine(diagnosis, doctor, symptoms, treatment, prescription))
+    return render_template('add_block.html')
