@@ -10,9 +10,9 @@ To run the application we need a virtual enviornment. Here are the steps to setu
 ```bash
 $ cd Blockchain-app
 
-$ python3 -m venv venv
+$ python3 -m venv .venv
 
-$ source venv/bin/activate
+$ source .venv/bin/activate
 ```
 
 # Import libraries
@@ -23,7 +23,7 @@ $ pip install -r requirements.txt
 ```
 
 # How to run the app
-First you need to go into the source directory and run the `flask --app main.py run` command
+follow these steps to run the flask app. (make sure you are in the parent directory)
 ```bash
 $ source export.sh
 # if you already exported the env variable then you don't need to do this. (only need to run it once)
