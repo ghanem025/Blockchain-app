@@ -2,7 +2,7 @@
 
 {% block content %}
 <div>
-    <form method="POST" action="/adding_block">
+    <form method="POST" action="/adding_block" id="form">
       <!-- Doctor Name -->
       <div class="form-outline mb-5">
         <div class="control">
@@ -14,33 +14,41 @@
       <div class="form-outline mb-5">
         <div class="control">
             <label class="form-label" for="user">Symptoms</label>
-            <input class="form-control" type="symptoms" name="symptoms" autofocus="">
+            <textarea class="form-control" name="symptoms" style="resize: vertical;"></textarea>
         </div>
       </div>
       <!-- Patient diagnosis -->
       <div class="form-outline mb-5">
         <div class="control">
             <label class="form-label" for="user">Diagnosis</label>
-            <input class="form-control" type="diagnosis" name="diagnosis" autofocus="">
+            <textarea class="form-control" name="diagnosis" style="resize: vertical;"></textarea>
         </div>
       </div>
       <!-- Treatment -->
       <div class="form-outline mb-5">
         <div class="control">
             <label class="form-label" for="user">Treatment</label>
-            <input class="form-control" type="treatment" name="treatment" autofocus="">
+            <textarea class="form-control" name="treatment" style="resize: vertical;"></textarea>
         </div>
       </div>
       <!-- Prescriptions -->
       <div class="form-outline mb-5">
         <div class="control">
             <label class="form-label" for="user">Prescriptions</label>
-            <input class="form-control" type="prescription" name="prescription" autofocus="">
+            <textarea class="form-control" name="prescription" style="resize: vertical;"></textarea>
         </div>
       </div>
       <button class="button is-block is-info is-large is-fullwidth">Add block</button>
     </form>
 </div>
+
+<script>
+  const form = document.getElementById("form");
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+  });
+</script>
+
 {% endblock %}
 
 
