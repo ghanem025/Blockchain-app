@@ -1,45 +1,61 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <div>
-    <form method="POST" action="/adding_block">
-      <!-- Doctor Name -->
-      <div class="form-outline mb-5">
-        <div class="control">
-            <label class="form-label" for="user">Physician name</label>
-            <input class="form-control" type="doctor" name="doctor" autofocus="">
-        </div>
+  <form method="POST" action="/adding_block">
+    <!-- Doctor Name -->
+    <div class="form-outline mb-5">
+      <div class="control">
+        <label class="form-label" for="user">Physician name</label>
+        <input class="form-control" type="doctor" name="doctor" autofocus="" />
       </div>
-      <!-- Symptoms -->
-      <div class="form-outline mb-5">
-        <div class="control">
-            <label class="form-label" for="user">Symptoms</label>
-            <textarea class="form-control" name="symptoms" style="resize: vertical;"></textarea>
-        </div>
+    </div>
+    <!-- Symptoms -->
+    <div class="form-outline mb-5">
+      <div class="control">
+        <label class="form-label" for="user">Symptoms</label>
+        <textarea
+          class="form-control"
+          name="symptoms"
+          style="resize: vertical"
+        ></textarea>
       </div>
-      <!-- Patient diagnosis -->
-      <div class="form-outline mb-5">
-        <div class="control">
-            <label class="form-label" for="user">Diagnosis</label>
-            <textarea class="form-control" name="diagnosis" style="resize: vertical;"></textarea>
-        </div>
+    </div>
+    <!-- Patient diagnosis -->
+    <div class="form-outline mb-5">
+      <div class="control">
+        <label class="form-label" for="user">Diagnosis</label>
+        <textarea
+          class="form-control"
+          name="diagnosis"
+          style="resize: vertical"
+        ></textarea>
       </div>
-      <!-- Treatment -->
-      <div class="form-outline mb-5">
-        <div class="control">
-            <label class="form-label" for="user">Treatment</label>
-            <textarea class="form-control" name="treatment" style="resize: vertical;"></textarea>
-        </div>
+    </div>
+    <!-- Treatment -->
+    <div class="form-outline mb-5">
+      <div class="control">
+        <label class="form-label" for="user">Treatment</label>
+        <textarea
+          class="form-control"
+          name="treatment"
+          style="resize: vertical"
+        ></textarea>
       </div>
-      <!-- Prescriptions -->
-      <div class="form-outline mb-5">
-        <div class="control">
-            <label class="form-label" for="user">Prescriptions</label>
-            <textarea class="form-control" name="prescription" style="resize: vertical;"></textarea>
-        </div>
+    </div>
+    <!-- Prescriptions -->
+    <div class="form-outline mb-5">
+      <div class="control">
+        <label class="form-label" for="user">Prescriptions</label>
+        <textarea
+          class="form-control"
+          name="prescription"
+          style="resize: vertical"
+        ></textarea>
       </div>
-      <button class="button is-block is-info is-large is-fullwidth">Add block</button>
-    </form>
+    </div>
+    <button class="button is-block is-info is-large is-fullwidth">
+      Add block
+    </button>
+  </form>
 </div>
 
 <script>
@@ -50,6 +66,3 @@
 </script>
 
 {% endblock %}
-
-
-
