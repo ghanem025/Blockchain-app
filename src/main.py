@@ -50,8 +50,11 @@ def add_block():
 	import time
 	diagnosis = request.form.get('diagnosis')
 	doctor = request.form.get('doctor')
+	symptoms = request.form.get('symptoms')
+	treatment = request.form.get('treatment')
+	prescription = request.form.get('prescription')
 	blockchain.add_new_transaction(1)
-	print(blockchain.mine(diagnosis, doctor))
+	print(blockchain.mine(diagnosis, doctor, symptoms, treatment, prescription))
 	return 'chain'
 
 
