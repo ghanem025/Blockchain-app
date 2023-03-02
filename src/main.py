@@ -48,6 +48,7 @@ def add_block_site():
 @main.route('/adding_block', methods=['POST'])
 def add_block():
 	import time
+	print("BUTTON HAS BEEN CLICKED")
 	diagnosis = request.form.get('diagnosis')
 	doctor = request.form.get('doctor')
 	symptoms = request.form.get('symptoms')

@@ -15,12 +15,7 @@ from cryptography.hazmat.primitives import serialization
 auth = Blueprint('auth', __name__)
 
 
-# @auth.route('/generate_key')
-# def generate_key():
-#     return  render_template('generate.html')
-
-
-def save_file(filename, content):
+def save_file(content):
     files = bytes(content, 'utf-8')
     fileobj = BytesIO(file)
     return fileobj
@@ -37,32 +32,19 @@ def key_page():
 def generate_key():
     private_key = rsa.generate_private_key(public_exponent = 65537, key_size = 4096, backend=default_backend())
 
-    private_key_pass = request.form.get('password')
-
-    password = generate_password_hash(private_key_pass, method='sha256')
-
-    password_byte = bytes(password, 'utf-8')
-
     encrypted_private_key = private_key.private_bytes(encoding = serialization.Encoding.PEM, 
                                                    format = serialization.PrivateFormat.PKCS8, 
                                                    encryption_algorithm = 
-                                                   serialization.BestAvailableEncryption(password_byte))
-    file_obj = encrypted_private_key
-    
+                                                   serialization.NoEncryption())                                  
     public_key = private_key.public_key()
     public_key_pem = public_key.public_bytes(encoding = serialization.Encoding.PEM, format = serialization.PublicFormat.SubjectPublicKeyInfo)
 
-    file_obj2 =  public_key_pem
-
     zip_obj = BytesIO()
-    with zipfile.ZipFile(zip_obj, mode='w', compression=zipfile.ZIP_DEFLATED) as zip_file:
-        zip_file.writestr('private_key.pem', file_obj)
-        zip_file.writestr('public_key.pem', file_obj2)
+    with zipfile.ZipFile(zip_obj, mode='w') as zip_file:
+        zip_file.writestr('private_key.pem', encrypted_private_key)
+        zip_file.writestr('public_key.pem', public_key_pem)
     zip_obj.seek(0)
 
-
-   
-    
     return send_file(zip_obj, as_attachment=True, download_name = "keys.zip")
 
 
