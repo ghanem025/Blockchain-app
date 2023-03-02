@@ -1,6 +1,7 @@
 from hashlib import sha256
 import json
 import sys
+import zlib
 
 #This is my own implementation of a blockchain.
 
@@ -22,10 +23,11 @@ class Block:
         self.previous_hash = previous_hash
 
     def create_hash(self):
+
         block_string = json.dumps(self.__dict__, sort_keys=True)
         return sha256(block_string.encode()).hexdigest()
     
-import time
+
 
 class Blockchain:
     def __init__(self):
@@ -36,6 +38,7 @@ class Blockchain:
 
     
     def create_genesis_block(self):
+        import time
         first_block = Block("flu", "Dr.Balls", "itchy ball", "amputation", "crack", 0, [], time.strftime('%X %x %Z'), "0") # I used time.strftime for an acurate date
         first_block.hash = first_block.create_hash()
         self.chain.append(first_block)
@@ -80,9 +83,11 @@ class Blockchain:
         self.unconfirmed_transactions.append(transaction)
 
     def mine(self, diagnosis, doctor, symptoms, treatment, prescription):
+        import time
         if not self.unconfirmed_transactions:
             return False
         last_blocK = self.last_blocK
+
         new_block = Block(diagnosis, 
         doctor, symptoms, treatment, prescription, index=last_blocK.index + 1, 
         transaction=self.unconfirmed_transactions, 
@@ -92,5 +97,4 @@ class Blockchain:
         proof = self.proof_of_work(new_block)
         self.add_block(new_block, proof)
         self.unconfirmed_transactions = []
-        print("mined a new block")
         return new_block.index

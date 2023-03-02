@@ -1,8 +1,8 @@
 # Python program to create Blockchain
 import json
+import zlib
 from flask import Blueprint
 from flask import Flask, jsonify, render_template, request
-from . import db
 from .blockchain import Blockchain
 from .blockchain import Block
 
@@ -40,12 +40,12 @@ def add_block_site():
 @main.route('/adding_block', methods=['POST'])
 def add_block():
 	import time
-	print("BUTTON HAS BEEN CLICKED")
 	diagnosis = request.form.get('diagnosis')
 	doctor = request.form.get('doctor')
 	symptoms = request.form.get('symptoms')
 	treatment = request.form.get('treatment')
 	prescription = request.form.get('prescription')
+
 	blockchain.add_new_transaction(1)
 	print(blockchain.mine(diagnosis, doctor, symptoms, treatment, prescription))
 	return render_template('add_block.html')
