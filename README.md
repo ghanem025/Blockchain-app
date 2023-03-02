@@ -23,7 +23,7 @@ $ pip install -r requirements.txt
 ```
 
 # How to run the app
-First you need to go into the source directory and run the `flask --app main.py run` command
+follow these steps to run the flask app. (make sure you are in the parent directory)
 ```bash
 $ source export.sh
 # if you already exported the env variable then you don't need to do this. (only need to run it once)
