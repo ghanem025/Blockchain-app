@@ -1,10 +1,22 @@
 {% extends "base.html" %} {% block content %}
 <div>
   <form method="POST" action="/adding_block">
+    <!-- Public Key (temp) -->
+    <div class="form-outline mb-5">
+      <div class="control">
+        <label class="form-label" for="user">Key</label>
+        <input
+          class="form-control"
+          type="publickey"
+          name="publickey"
+          autofocus=""
+        />
+      </div>
+    </div>
     <!-- Doctor Name -->
     <div class="form-outline mb-5">
       <div class="control">
-        <label class="form-label" for="user">Physician name</label>
+        <label class="form-label" for="user">Physician</label>
         <input class="form-control" type="doctor" name="doctor" autofocus="" />
       </div>
     </div>
