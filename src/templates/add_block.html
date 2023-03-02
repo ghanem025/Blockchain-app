@@ -3,21 +3,45 @@
 {% block content %}
 <div>
     <form method="POST" action="/adding_block">
+      <!-- Doctor Name -->
+      <div class="form-outline mb-5">
+        <div class="control">
+            <label class="form-label" for="user">Physician name</label>
+            <input class="form-control" type="doctor" name="doctor" autofocus="">
+        </div>
+      </div>
+      <!-- Symptoms -->
+      <div class="form-outline mb-5">
+        <div class="control">
+            <label class="form-label" for="user">Symptoms</label>
+            <input class="form-control" type="symptoms" name="symptoms" autofocus="">
+        </div>
+      </div>
       <!-- Patient diagnosis -->
       <div class="form-outline mb-5">
         <div class="control">
             <label class="form-label" for="user">Diagnosis</label>
-            <input class="form-control" type="diagnosis" name="diagnosis" placeholder="Diagnosis" autofocus="">
+            <input class="form-control" type="diagnosis" name="diagnosis" autofocus="">
         </div>
       </div>
-      <!--Doctor Name -->
+      <!-- Treatment -->
       <div class="form-outline mb-5">
         <div class="control">
-            <label class="form-label" for="user">Physician name</label>
-            <input class="form-control" type="doctor" name="doctor" placeholder="Doctor Name" autofocus="">
+            <label class="form-label" for="user">Treatment</label>
+            <input class="form-control" type="treatment" name="treatment" autofocus="">
+        </div>
+      </div>
+      <!-- Prescriptions -->
+      <div class="form-outline mb-5">
+        <div class="control">
+            <label class="form-label" for="user">Prescriptions</label>
+            <input class="form-control" type="prescription" name="prescription" autofocus="">
         </div>
       </div>
       <button class="button is-block is-info is-large is-fullwidth">Add block</button>
     </form>
 </div>
 {% endblock %}
+
+
+
