@@ -1,7 +1,10 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, send_file
+from io import BytesIO
+import zipfile
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
 from . import db
+
 
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
@@ -18,12 +21,14 @@ auth = Blueprint('auth', __name__)
 
 
 def save_file(filename, content):
-	f = open(filename, "wb")
-	f.write(content)
-	f.close()
+    files = bytes(content, 'utf-8')
+    fileobj = BytesIO(file)
+    return fileobj
+
 
 @auth.route('/generate_key')
 def key_page():
+
     return  render_template('generate.html')
 
 
@@ -42,15 +47,23 @@ def generate_key():
                                                    format = serialization.PrivateFormat.PKCS8, 
                                                    encryption_algorithm = 
                                                    serialization.BestAvailableEncryption(password_byte))
-    save_file("private_key.pem", encrypted_private_key)
-
+    file_obj = encrypted_private_key
+    
     public_key = private_key.public_key()
     public_key_pem = public_key.public_bytes(encoding = serialization.Encoding.PEM, format = serialization.PublicFormat.SubjectPublicKeyInfo)
 
-    save_file("public_key.pem", public_key_pem)
+    file_obj2 =  public_key_pem
 
-    return "keys have been created"
+    zip_obj = BytesIO()
+    with zipfile.ZipFile(zip_obj, mode='w', compression=zipfile.ZIP_DEFLATED) as zip_file:
+        zip_file.writestr('private_key.pem', file_obj)
+        zip_file.writestr('public_key.pem', file_obj2)
+    zip_obj.seek(0)
 
+
+   
+    
+    return send_file(zip_obj, as_attachment=True, download_name = "keys.zip")
 
 
 @auth.route('/login')
