@@ -3,27 +3,36 @@
 {% block content %}
 <div>
     <form method="POST" action="/adding_block">
-        <!-- Email input -->
-        <div class="form-outline mb-4">
-          <label class="form-label" for="user">Name</label>
-          <input type="name" id="user" class="form-control" />
-          
+      <!-- Patient Name -->
+      <div class="form-outline mb-5">
+        <div class="control">
+            <label class="form-label" for="user">Name</label>
+            <input class="form-control" type="name" name="name" placeholder="Enter patients name here" autofocus="">
         </div>
-      
-        <!-- Password input -->
-        <div class="form-outline mb-4">
-          <label class="form-label" for="user">Age</label>
-          <input type="age" id="user" class="form-control" />
-          
+      </div>
+      <!-- Patient age -->
+      <div class="form-outline mb-5">
+        <div class="control">
+            <label class="form-label" for="user">Age</label>
+            <input class="form-control" type="age" name="age" placeholder="Enter patients age here" autofocus="">
         </div>
-        <div class="form-outline mb-4">
-            <label class="form-label" for="user">Diagnosis</label>
-            <input type="diagnosis" id="user" class="form-control" />
+      </div>
+      <!-- Patient diagnosis -->
+      <div class="form-outline mb-5">
+        <div class="control">
+            <label class="form-label" for="user">diagnosis</label>
+            <input class="form-control" type="diagnosis" name="diagnosis" placeholder="Enter diagnosis here" autofocus="">
         </div>
-        <div class="form-outline mb-4">
-            <label class="form-label" for="user">Doctor</label>
-            <input type="doctor" id="user" class="form-control" />
+      </div>
+
+      <!--Doctor information-->
+      <div class="form-outline mb-5">
+        <div class="control">
+            <label class="form-label" for="user">Doctor's name</label>
+            <input class="form-control" type="doctor" name="doctor" placeholder="Enter Doctors name here" autofocus="">
         </div>
+      </div>
+      <button class="button is-block is-info is-large is-fullwidth">Add block</button>
         
     </form>
 

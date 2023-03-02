@@ -41,6 +41,10 @@ def display_chain():
 	
 	return response
 
+@main.route('/adding_block')
+def add_block_site():
+	return render_template('add_block.html')
+
 @main.route('/adding_block', methods=['POST'])
 def add_block():
 	import time
