@@ -1,16 +1,24 @@
 {% extends "base.html" %} {% block content %}
 <div>
+  <form method="POST" action="/upload" enctype="multipart/form-data">
+    <div>
+      <input type="file" name="file" />  
+      <input type = "submit" value="Upload">  
+    </div>
+  </form>
   <form method="POST" action="/adding_block">
     <!-- Public Key (temp) -->
     <div class="form-outline mb-5">
       <div class="control">
         <label class="form-label" for="user">Key</label>
-        <input
+        <textarea
+          readonly
+          rows="4" 
+          cols="50"
           class="form-control"
           type="publickey"
           name="publickey"
-          autofocus=""
-        />
+        >{{ public_key }}</textarea>
       </div>
     </div>
     <!-- Doctor Name -->

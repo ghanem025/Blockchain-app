@@ -42,7 +42,8 @@ def add_block_site():
 
 @main.route('/adding_block', methods=['POST'])
 def add_block():
-    public_key = request.form.get('publickey').replace("\\n", "\n")
+    public_key = request.form.get('publickey')
+
     public_key = serialization.load_pem_public_key(public_key.encode())
 
     diagnosis = base64.b64encode(public_key.encrypt(
@@ -89,3 +90,10 @@ def add_block():
     blockchain.add_new_transaction(1)
     print(blockchain.mine(diagnosis, doctor, symptoms, treatment, prescription))
     return render_template('add_block.html')
+
+
+@main.route('/upload', methods=['POST'])
+def upload_key():
+	uploaded_file = request.files['file']
+	file_info = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
+	return render_template('add_block.html', public_key=file_info)
