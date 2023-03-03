@@ -42,12 +42,24 @@ def add_block_site():
 
 @main.route('/adding_block', methods=['POST'])
 def add_block():
+	
     public_key = request.form.get('publickey')
-
     public_key = serialization.load_pem_public_key(public_key.encode())
+    
+    diagnosis = request.form.get('diagnosis')
+    doctor = request.form.get('doctor')
+    symptoms = request.form.get('symptoms')
+    treatment = request.form.get('treatment')
+    prescription = request.form.get('prescription')
+
+    diagnosis = zlib.compress(bytes(diagnosis, 'utf-8'), level=9)
+    doctor = zlib.compress(bytes(doctor, 'utf-8'), level=1)
+    symptoms = zlib.compress(bytes(symptoms, 'utf-8'), level=9)
+    treatment = zlib.compress(bytes(treatment, 'utf-8'), level=9)
+    prescription = zlib.compress(bytes(prescription, 'utf-8'), level=1)
 
     diagnosis = base64.b64encode(public_key.encrypt(
-		request.form.get('diagnosis').encode(),
+		diagnosis,
 		padding.OAEP(
 			mgf=padding.MGF1(algorithm=hashes.SHA256()),
 			algorithm=hashes.SHA256(),
@@ -55,7 +67,7 @@ def add_block():
 		)
 	)).decode('utf-8')
     doctor = base64.b64encode(public_key.encrypt(
-		request.form.get('doctor').encode(),
+		doctor,
 		padding.OAEP(
 			mgf=padding.MGF1(algorithm=hashes.SHA256()),
 			algorithm=hashes.SHA256(),
@@ -63,7 +75,7 @@ def add_block():
 		)
 	)).decode('utf-8')
     symptoms = base64.b64encode(public_key.encrypt(
-		request.form.get('symptoms').encode(),
+		symptoms,
 		padding.OAEP(
 			mgf=padding.MGF1(algorithm=hashes.SHA256()),
 			algorithm=hashes.SHA256(),
@@ -71,7 +83,7 @@ def add_block():
 		)
 	)).decode('utf-8')
     treatment = base64.b64encode(public_key.encrypt(
-		request.form.get('treatment').encode(),
+		treatment,
 		padding.OAEP(
 			mgf=padding.MGF1(algorithm=hashes.SHA256()),
 			algorithm=hashes.SHA256(),
@@ -79,7 +91,7 @@ def add_block():
 		)
 	)).decode('utf-8')
     prescription = base64.b64encode(public_key.encrypt(
-		request.form.get('prescription').encode(),
+		prescription,
 		padding.OAEP(
 			mgf=padding.MGF1(algorithm=hashes.SHA256()),
 			algorithm=hashes.SHA256(),
