@@ -11,7 +11,8 @@ print("blockchain implementation")
 class Block:
     # keep the previous hash in a block to semi-protect the chains integrity
     # we use a nonce value, a nonce value is a value or a number that can only be used once
-    def __init__(self,diagnosis, doctor, symptoms, treatment, prescription, index, transaction, timestamp, previous_hash, nonce = 0):
+    def __init__(self, uuidOne, diagnosis, doctor, symptoms, treatment, prescription, index, transaction, timestamp, previous_hash, nonce = 0):
+        self.uuidOne = uuidOne
         self.diagnosis = diagnosis
         self.doctor = doctor
         self.symptoms = symptoms
@@ -23,7 +24,6 @@ class Block:
         self.previous_hash = previous_hash
 
     def create_hash(self):
-
         block_string = json.dumps(self.__dict__, sort_keys=True)
         return sha256(block_string.encode()).hexdigest()
     
@@ -39,7 +39,9 @@ class Blockchain:
     
     def create_genesis_block(self):
         import time
-        first_block = Block("flu", "Dr.Balls", "itchy ball", "amputation", "crack", 0, [], time.strftime('%X %x %Z'), "0") # I used time.strftime for an acurate date
+        import uuid
+        uuidOne = uuid.uuid1()
+        first_block = Block(str(uuidOne) ,"flu", "Dr.Balls", "itchy ball", "amputation", "crack", 0, [], time.strftime('%X %x %Z'), "0") # I used time.strftime for an acurate date
         first_block.hash = first_block.create_hash()
         self.chain.append(first_block)
     
@@ -82,13 +84,13 @@ class Blockchain:
     def add_new_transaction(self, transaction):
         self.unconfirmed_transactions.append(transaction)
 
-    def mine(self, diagnosis, doctor, symptoms, treatment, prescription):
+    def mine(self, uuidOne,  diagnosis, doctor, symptoms, treatment, prescription):
         import time
         if not self.unconfirmed_transactions:
             return False
         last_blocK = self.last_blocK
 
-        new_block = Block(diagnosis, 
+        new_block = Block(uuidOne, diagnosis, 
         doctor, symptoms, treatment, prescription, index=last_blocK.index + 1, 
         transaction=self.unconfirmed_transactions, 
         timestamp=time.strftime('%X %x %Z'),

@@ -1,0 +1,29 @@
+{% extends "base.html" %} 
+{% block content %}
+
+<div>
+    <form  method="POST" action="/update_key">
+        <div>
+            <button> 
+                Download updated key
+            </button>
+        </div>
+        <div class="form-outline mb-5">
+            <div class="control">
+                <label class="form-label" for="user">Key</label>
+                <textarea
+                readonly
+                rows="4" 
+                cols="50"
+                class="form-control"
+                type="publickey"
+                name="publickey"
+                >{{ key }}</textarea>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+{% endblock %}

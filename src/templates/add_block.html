@@ -1,81 +1,88 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+{% block content %}
 <div>
-  <form method="POST" action="/upload" enctype="multipart/form-data">
-    <div>
-      <input type="file" name="file" />  
-      <input type = "submit" value="Upload">  
-    </div>
-  </form>
-  <form method="POST" action="/adding_block">
-    <!-- Public Key (temp) -->
-    <div class="form-outline mb-5">
-      <div class="control">
-        <label class="form-label" for="user">Key</label>
-        <textarea
-          readonly
-          rows="4" 
-          cols="50"
-          class="form-control"
-          type="publickey"
-          name="publickey"
-        >{{ public_key }}</textarea>
-      </div>
-    </div>
-    <!-- Doctor Name -->
-    <div class="form-outline mb-5">
-      <div class="control">
-        <label class="form-label" for="user">Physician</label>
-        <input class="form-control" type="doctor" name="doctor" autofocus="" />
-      </div>
-    </div>
-    <!-- Symptoms -->
-    <div class="form-outline mb-5">
-      <div class="control">
-        <label class="form-label" for="user">Symptoms</label>
-        <textarea
-          class="form-control"
-          name="symptoms"
-          style="resize: vertical"
-        ></textarea>
-      </div>
-    </div>
-    <!-- Patient diagnosis -->
-    <div class="form-outline mb-5">
-      <div class="control">
-        <label class="form-label" for="user">Diagnosis</label>
-        <textarea
-          class="form-control"
-          name="diagnosis"
-          style="resize: vertical"
-        ></textarea>
-      </div>
-    </div>
-    <!-- Treatment -->
-    <div class="form-outline mb-5">
-      <div class="control">
-        <label class="form-label" for="user">Treatment</label>
-        <textarea
-          class="form-control"
-          name="treatment"
-          style="resize: vertical"
-        ></textarea>
-      </div>
-    </div>
-    <!-- Prescriptions -->
-    <div class="form-outline mb-5">
-      <div class="control">
-        <label class="form-label" for="user">Prescriptions</label>
-        <textarea
-          class="form-control"
-          name="prescription"
-          style="resize: vertical"
-        ></textarea>
-      </div>
-    </div>
-    <button class="button is-block is-info is-large is-fullwidth">
-      Add block
-    </button>
-  </form>
+
+    <form method="POST" action="/upload" enctype="multipart/form-data">    
+         <div>
+            <input type="file" name="file" />  
+            <input type = "submit" value="Upload">  
+        </div>
+    </form>
+    <form method="POST" action="/adding_block">
+      <!-- Public Key (temp) -->
+        <div class="form-outline mb-5">
+            <div class="control">
+                <label class="form-label" for="user">Key</label>
+                <textarea
+                readonly
+                rows="4" 
+                cols="50"
+                class="form-control"
+                type="publickey"
+                name="publickey"
+                >{{ key }}</textarea>
+            </div>
+        </div>
+
+      <!-- Doctor Name -->
+        <div class="form-outline mb-5">
+            <div class="control">
+                <label class="form-label" for="user">Physician</label>
+                <input class="form-control" type="doctor" name="doctor" autofocus="" />
+            </div>
+        </div>
+
+      <!-- Symptoms -->
+        <div class="form-outline mb-5">
+            <div class="control">
+                <label class="form-label" for="user">Symptoms</label>
+                <textarea
+                class="form-control"
+                name="symptoms"
+                style="resize: vertical"
+                ></textarea>
+            </div>
+        </div>
+
+      <!-- Patient diagnosis -->
+        <div class="form-outline mb-5">
+            <div class="control">
+                <label class="form-label" for="user">Diagnosis</label>
+                <textarea
+                class="form-control"
+                name="diagnosis"
+                style="resize: vertical"
+                ></textarea>
+            </div>
+        </div>
+
+      <!-- Treatment -->
+        <div class="form-outline mb-5">
+            <div class="control">
+                <label class="form-label" for="user">Treatment</label>
+                <textarea
+                class="form-control"
+                name="treatment"
+                style="resize: vertical"
+                ></textarea>
+            </div>
+        </div>
+
+      <!-- Prescriptions -->
+        <div class="form-outline mb-5">
+            <div class="control">
+              <label class="form-label" for="user">Prescriptions</label>
+              <textarea
+              class="form-control"
+              name="prescription"
+              style="resize: vertical"
+              ></textarea>
+            </div>
+        </div>
+        <button class="button is-block is-info is-large is-fullwidth">
+        Add block
+        </button>
+    </form>
 </div>
 
 <script>
