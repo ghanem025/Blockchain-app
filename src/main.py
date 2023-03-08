@@ -1,14 +1,15 @@
 # Python program to create Blockchain
+import base64
 import json
 import zlib
-from flask import Blueprint
-from flask import Flask, jsonify, render_template, request, send_file
+
 from .blockchain import Blockchain
 from .blockchain import Block
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
-import base64
+from flask import Blueprint
+from flask import Flask, jsonify, render_template, request, send_file
 
 # Creating the Web
 # App using flask
@@ -40,10 +41,13 @@ def display_chain():
 def add_block_site():
     return render_template('add_block.html')
 
+@main.route('/upload_keys')
+def upload_key_site():
+	return render_template('upload_key.html')
+
 @main.route('/update_key', methods=['POST'])
 def update_file():
     from io import BytesIO
-
     public_key = request.form.get('publickey')
     public_key_file = BytesIO(bytes(public_key, "utf-8"))
     return send_file(public_key_file, download_name = "public_key.pem")
@@ -114,6 +118,14 @@ def add_block():
 
 @main.route('/upload', methods=['POST'])
 def upload_key():
-	uploaded_file = request.files['file']
-	file_info = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
-	return render_template('add_block.html', key=file_info)
+    uploaded_file = request.files['file']
+    file_info = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
+    return render_template("add_block.html", key=file_info)
+
+@main.route('/upload_keys', methods=['POST'])
+def upload_private_key():
+    uploaded_file = request.files['file']
+    file_info = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
+    
+    return render_template('upload_key.html', key=file_info)
+
