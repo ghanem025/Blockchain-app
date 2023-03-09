@@ -129,3 +129,9 @@ def upload_private_key():
     
     return render_template('upload_key.html', key=file_info)
 
+@main.route('/fancy_display')
+def fancy_display():
+    chain_data = []
+    for block in blockchain.chain:
+        chain_data.append(block.__dict__)
+    return render_template('fancy_display.html', chain_data=chain_data)
