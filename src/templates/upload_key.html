@@ -2,28 +2,76 @@
 
 {% block content %}
 <div>
-    <form method="POST" action="/upload_keys" enctype="multipart/form-data">    
+    <form method="POST" action="/upload_private" enctype="multipart/form-data">    
         <div>
-           <input type="file" name="file">  
-           <input type = "submit" value="Upload">  
-       </div>
-   </form>
-
-    <div class="form-outline mb-5">
-        <div class="control">
-            <label class="form-label" for="user">Key</label>
-            <textarea
-            readonly
-            rows="4" 
-            cols="50"
-            class="form-control"
-            type="publickey"
-            name="publickey"
-            >{{ key }}</textarea>
+            <p> Upload Private key</p>
+            <input type="file" name="private_file">  
+            <input type = "submit" value="Upload">  
         </div>
-    </div>
+        <div class="form-outline mb-5">
+            <div class="control">
+                <label class="form-label" for="user">Key</label>
+                <textarea
+                id="prikey"
+                readonly
+                rows="4" 
+                cols="50"
+                class="form-control"
+                type="privatekey"
+                name="privatekey"
+                >{{ private_key }}</textarea>
+            </div>
+        </div>
+    </form>
+
+    <form method="POST" action="/upload_public" enctype="multipart/form-data">    
+        <div>
+            <p> Upload public key</p>
+            <input type="file" name="public_file">  
+            <input type = "submit" value="Upload">  
+        </div>
+
+        <div class="form-outline mb-5">
+            <div class="control">
+                <label class="form-label" for="user">Key</label>
+                <textarea
+                id="pubkey"
+                readonly
+                rows="4" 
+                cols="50"
+                class="form-control"
+                type="publickey"
+                name="publickey"
+                >{{ public_key }}</textarea>
+            </div>
+        </div>
+    </form>
+
 </div>
 
+<script>
+   
+    var private_key = localStorage.getItem('private_key');
+
+    if(!private_key) {
+        private_key  = `{{ private_key }}`;
+        localStorage.setItem('private_key', private_key);
+    }
+
+    var public_key = localStorage.getItem('public_key');
+
+    if(!public_key) {
+        public_key  = `{{ public_key }}`;
+        localStorage.setItem('public_key', public_key);
+    }
+   
+    var private_key_element = document.getElementById("prikey");
+    private_key_element.textContent = private_key;
+   
+    var public_key_element = document.getElementById("pubkey");
+    public_key_element.textContent = public_key;
+
+</script>
 
 
 {%endblock%}

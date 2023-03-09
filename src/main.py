@@ -116,18 +116,19 @@ def add_block():
     print(blockchain.mine(str(uuidOne), diagnosis, doctor, symptoms, treatment, prescription))
     return render_template("update_key.html", key=public_key_data)
 
-@main.route('/upload', methods=['POST'])
-def upload_key():
-    uploaded_file = request.files['file']
-    file_info = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
-    return render_template("add_block.html", key=file_info)
 
-@main.route('/upload_keys', methods=['POST'])
+@main.route('/upload_private', methods=['POST'])
 def upload_private_key():
-    uploaded_file = request.files['file']
-    file_info = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
-    
-    return render_template('upload_key.html', key=file_info)
+    uploaded_file = request.files['private_file']
+    private_key = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
+    return render_template('upload_key.html', private_key = private_key)
+
+@main.route('/upload_public', methods=['POST'])
+def upload_public_key():
+    uploaded_file = request.files['public_file']
+    public_key = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
+
+    return render_template('upload_key.html', public_key = public_key)
 
 @main.route('/fancy_display')
 def fancy_display():

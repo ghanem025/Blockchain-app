@@ -46,7 +46,7 @@ class Blockchain:
         self.chain.append(first_block)
     
     @property
-    def last_blocK(self):
+    def last_block(self):
         return self.chain[-1]
     
     @property
@@ -63,7 +63,7 @@ class Blockchain:
         return finished_hash
     
     def add_block(self, block, proof):
-        previous_hash = self.last_blocK.hash
+        previous_hash = self.last_block.hash
         # comparing the chains last block and the block objects previous hash
         if previous_hash != block.previous_hash:
             print("something is not right, the previous hash doesn't match with the blockchains previous hash", file=sys.stderr)
@@ -88,13 +88,13 @@ class Blockchain:
         import time
         if not self.unconfirmed_transactions:
             return False
-        last_blocK = self.last_blocK
+        last_block = self.last_block
 
         new_block = Block(uuidOne, diagnosis, 
-        doctor, symptoms, treatment, prescription, index=last_blocK.index + 1, 
+        doctor, symptoms, treatment, prescription, index=last_block.index + 1, 
         transaction=self.unconfirmed_transactions, 
         timestamp=time.strftime('%X %x %Z'),
-        previous_hash=last_blocK.hash)
+        previous_hash=last_block.hash)
 
         proof = self.proof_of_work(new_block)
         self.add_block(new_block, proof)
