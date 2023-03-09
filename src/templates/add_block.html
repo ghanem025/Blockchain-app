@@ -2,7 +2,7 @@
 {% block content %}
 <div>
 
-    <form method="POST" action="/upload_public" enctype="multipart/form-data">    
+    <form method="POST" action="/upload" enctype="multipart/form-data">    
          <div>
             <input type="file" name="public_file" />  
             <input type = "submit" value="Upload">  
@@ -14,13 +14,14 @@
             <div class="control">
                 <label class="form-label" for="user">Key</label>
                 <textarea
+                id="pubkey"
                 readonly
                 rows="4" 
                 cols="50"
                 class="form-control"
                 type="publickey"
                 name="publickey"
-                >{{ key }}</textarea>
+                >{{ public_key }}</textarea>
             </div>
         </div>
 
@@ -86,10 +87,20 @@
 </div>
 
 <script>
-  const form = document.getElementById("form");
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-  });
+    const form = document.getElementById("form");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+    });
+    
+    var public_key = localStorage.getItem('public_key');
+
+    if(!public_key) {
+        public_key  = `{{ public_key }}`;
+        localStorage.setItem('public_key', public_key);
+    }
+   
+    var public_key_element = document.getElementById("pubkey");
+    public_key_element.textContent = public_key;
 </script>
 
 {% endblock %}

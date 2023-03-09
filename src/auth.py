@@ -15,8 +15,7 @@ auth = Blueprint('auth', __name__)
 def key_page():
     return  render_template('generate.html')
 
-
-# Generating private keys
+# Generating public and private keys
 @auth.route('/generate_key', methods=['POST'])
 def generate_key():
     private_key = rsa.generate_private_key(public_exponent = 65537, key_size = 4096, backend=default_backend())

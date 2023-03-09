@@ -41,21 +41,19 @@ def display_chain():
 def add_block_site():
     return render_template('add_block.html')
 
-@main.route('/upload_keys')
-def upload_key_site():
-	return render_template('upload_key.html')
-
+# add UUID to public key
 @main.route('/update_key', methods=['POST'])
 def update_file():
     from io import BytesIO
     public_key = request.form.get('publickey')
     public_key_file = BytesIO(bytes(public_key, "utf-8"))
-    return send_file(public_key_file, download_name = "public_key.pem")
+    return send_file(public_key_file, as_attachment=True, download_name = "public_key.pem")
 
+# encrypt data and send data to mine a new block 
 @main.route('/adding_block', methods=['POST'])
 def add_block():
     import uuid
-    uuidOne = uuid.uuid1() 
+    uuidOne = uuid.uuid4() 
     public_key_data = request.form.get('publickey')    
     public_key = serialization.load_pem_public_key(public_key_data.encode())
     public_key_data = public_key_data + str(uuidOne) + '\n'
@@ -116,20 +114,7 @@ def add_block():
     print(blockchain.mine(str(uuidOne), diagnosis, doctor, symptoms, treatment, prescription))
     return render_template("update_key.html", key=public_key_data)
 
-
-@main.route('/upload_private', methods=['POST'])
-def upload_private_key():
-    uploaded_file = request.files['private_file']
-    private_key = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
-    return render_template('upload_key.html', private_key = private_key)
-
-@main.route('/upload_public', methods=['POST'])
-def upload_public_key():
-    uploaded_file = request.files['public_file']
-    public_key = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
-
-    return render_template('upload_key.html', public_key = public_key)
-
+# displaying block information
 @main.route('/fancy_display')
 def fancy_display():
     chain_data = []
