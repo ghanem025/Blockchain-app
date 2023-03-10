@@ -121,3 +121,21 @@ def fancy_display():
     for block in blockchain.chain:
         chain_data.append(block.__dict__)
     return render_template('fancy_display.html', chain_data=chain_data)
+
+
+
+# display history
+@main.route('/view_history', methods=['POST'])
+def view_history():
+    public_key_data = request.form.get('publickey')
+    private_key_data = request.form.get('privatekey')
+    transactions = public_key_data.split("\n")[public_key_data.split('\n').index('-----END PUBLIC KEY-----\r')+1:]
+    print(transactions)
+    private_key = serialization.load_pem_private_key(private_key_data.encode(), password=None)
+    chain_data = []
+    for block in blockchain.chain:
+        temp_dict = block.__dict__
+        if temp_dict['uuidOne'] in transactions: # come back for performance optimization
+            chain_data.append(temp_dict)
+    return render_template('view_history.html', chain_data=chain_data)
+

@@ -46,7 +46,37 @@
             </div>
         </div>
     </form>
-
+    <form method="POST" action="/view_history" enctype="multipart/form-data">
+        <div class="form-outline mb-4">
+            <div class="control">
+                <button id=submit_button class="button is-block is-info is-large is-fullwidth">View History</button>
+            </div>
+        </div>
+        <div>
+            <textarea
+                id="pubkeyid"
+                readonly
+                hidden
+                rows="4" 
+                cols="50"
+                class="form-control"
+                type="publickey"
+                name="publickey"
+                >{{ public_key }}</textarea>
+        </div>
+        <div>
+            <textarea
+                id="prikeyid"
+                readonly
+                hidden
+                rows="4" 
+                cols="50"
+                class="form-control"
+                type="privatekey"
+                name="privatekey"
+            >{{ private_key }}</textarea>
+        </div>
+    </form>
 </div>
 
 <script>
@@ -70,6 +100,12 @@
    
     var public_key_element = document.getElementById("pubkey");
     public_key_element.textContent = public_key;
+
+    
+    var pubkey_element = document.getElementById("pubkeyid");
+    pubkey_element.textContent = public_key;
+    var prikey_element = document.getElementById("prikeyid");
+    prikey_element.textContent = private_key;
 
 </script>
 
