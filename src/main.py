@@ -63,11 +63,11 @@ def add_block():
     treatment = request.form.get('treatment')
     prescription = request.form.get('prescription')
 
-    diagnosis = zlib.compress(bytes(diagnosis, 'utf-8'), level=9)
-    doctor = zlib.compress(bytes(doctor, 'utf-8'), level=1)
-    symptoms = zlib.compress(bytes(symptoms, 'utf-8'), level=9)
-    treatment = zlib.compress(bytes(treatment, 'utf-8'), level=9)
-    prescription = zlib.compress(bytes(prescription, 'utf-8'), level=1)
+    # diagnosis = zlib.compress(bytes(diagnosis, 'utf-8'), level=9)
+    # doctor = zlib.compress(bytes(doctor, 'utf-8'), level=1)
+    # symptoms = zlib.compress(bytes(symptoms, 'utf-8'), level=9)
+    # treatment = zlib.compress(bytes(treatment, 'utf-8'), level=9)
+    # prescription = zlib.compress(bytes(prescription, 'utf-8'), level=1)
 
     diagnosis = base64.b64encode(public_key.encrypt(
 		diagnosis,
@@ -129,7 +129,7 @@ def fancy_display():
 def view_history():
     public_key_data = request.form.get('publickey')
     private_key_data = request.form.get('privatekey')
-    transactions = public_key_data.split("\n")[public_key_data.split('\n').index('-----END PUBLIC KEY-----\r')+1:]
+    transactions = public_key_data.split("\r\n")[public_key_data.split('\r\n').index('-----END PUBLIC KEY-----')+1:]
     print(transactions)
     private_key = serialization.load_pem_private_key(private_key_data.encode(), password=None)
     chain_data = []
