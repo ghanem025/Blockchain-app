@@ -90,10 +90,10 @@
 
     var public_key = localStorage.getItem('public_key');
 
-    if(!public_key) {
+    
         public_key  = `{{ public_key }}`;
         localStorage.setItem('public_key', public_key);
-    }
+    
    
     var private_key_element = document.getElementById("prikey");
     private_key_element.textContent = private_key;
