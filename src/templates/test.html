@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <form id="my-form" action="/my-flask-route" method="POST">
+        <input type="hidden" name="variable1" value="value1">
+        <input type="hidden" name="variable2" value="value2">
+        <button type="submit">Submit</button>
+    </form>
+      
+</div>
+
+{%endblock%}

@@ -87,10 +87,10 @@
 </div>
 
 <script>
-    const form = document.getElementById("form");
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-    });
+    // const form = document.getElementById("form");
+    // form.addEventListener("submit", (event) => {
+    //   event.preventDefault();
+    // });
     
     var public_key = localStorage.getItem('public_key');
 
@@ -101,6 +101,7 @@
    
     var public_key_element = document.getElementById("pubkey");
     public_key_element.textContent = public_key;
+    console.log(public_key);
 </script>
 
 {% endblock %}

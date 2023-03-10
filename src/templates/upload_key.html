@@ -35,6 +35,7 @@
             <div class="control">
                 <label class="form-label" for="user">Key</label>
                 <textarea
+                hidden
                 id="pubkey"
                 readonly
                 rows="4" 
@@ -80,7 +81,6 @@
 </div>
 
 <script>
-   
     var private_key = localStorage.getItem('private_key');
 
     if(!private_key) {
@@ -101,9 +101,9 @@
     var public_key_element = document.getElementById("pubkey");
     public_key_element.textContent = public_key;
 
-    
     var pubkey_element = document.getElementById("pubkeyid");
     pubkey_element.textContent = public_key;
+    
     var prikey_element = document.getElementById("prikeyid");
     prikey_element.textContent = private_key;
 

@@ -1,13 +1,11 @@
 from hashlib import sha256
 import json
+import os
+import pickle
 import sys
 import zlib
 
 #This is my own implementation of a blockchain.
-
-print("blockchain implementation")
-
-
 class Block:
     # keep the previous hash in a block to semi-protect the chains integrity
     # we use a nonce value, a nonce value is a value or a number that can only be used once
@@ -28,14 +26,13 @@ class Block:
         return sha256(block_string.encode()).hexdigest()
     
 
-
 class Blockchain:
     def __init__(self):
         self.unconfirmed_transactions = [] #maybe we can have the doctor's transaction stored here?
         self.chain = []
         self.create_genesis_block() # creating our first block (genesis block)
         self.block_is_valid = None
-
+        self.load_chain()
     
     def create_genesis_block(self):
         import time
@@ -52,7 +49,21 @@ class Blockchain:
     @property
     def get_status(self):
         return self.block_is_valid
-    
+
+    def save_chain(self):
+        with open('blockchain.pickle', 'wb') as f:
+            pickle.dump(self.chain, f)
+            print("Blockchain has been saved")
+            
+    def load_chain(self):
+        try:
+            with open('blockchain.pickle', 'rb') as f:
+                self.chain = pickle.load(f)
+                print("Blockchain has been loaded")
+        except FileNotFoundError:
+            print("blockchain does not exist")
+            self.create_genesis_block()
+
     difficulty = 2
     def proof_of_work(self, block):
         block.nonce = 0
@@ -66,7 +77,7 @@ class Blockchain:
         previous_hash = self.last_block.hash
         # comparing the chains last block and the block objects previous hash
         if previous_hash != block.previous_hash:
-            print("something is not right, the previous hash doesn't match with the blockchains previous hash", file=sys.stderr)
+            print("something is not right, the previous hash doesn't match")
             return False
         if not self.is_valid_proof(block, proof):
             self.block_is_valid = False
@@ -74,10 +85,10 @@ class Blockchain:
 
         block.hash = proof
         self.chain.append(block)
+        self.save_chain()
         return True
     
     def is_valid_proof(self, block, block_hash):
-        print("HI I AM TESTING VALID THING")
         self.block_is_valid = True
         return (block_hash.startswith('0' * Blockchain.difficulty) and block_hash == block.create_hash())
     

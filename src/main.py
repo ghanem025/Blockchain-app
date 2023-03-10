@@ -123,7 +123,6 @@ def fancy_display():
     return render_template('fancy_display.html', chain_data=chain_data)
 
 
-
 # display history
 @main.route('/view_history', methods=['POST'])
 def view_history():
