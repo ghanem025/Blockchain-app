@@ -9,10 +9,32 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Flask Auth Example</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+        <link rel="stylesheet" href="static/css/wiki.css">
     </head>
+    <style>
+        html {
+            height: 100%;
+        }
+        body {
+            min-height: 100%;
+        }
+        .nav-pills .nav-link:hover {
+            background-color: #0eb6ee;
+            color: rgb(58, 57, 57);
+        } 
+        body {
+            background-color: #222;
+            color: #fff;
+        }
 
+        a {
+            color: #fff;
+        }
+        h1.title{
+            color: #fff;
+        }
+    </style>
     <body>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" 
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
@@ -30,6 +52,8 @@
                     <li class="nav-item"><a href="{{ url_for('auth.generate_key') }}" class="nav-link px-2 text-white">Generate key</a></li>
                     <li class="nav-item"><a href="{{ url_for('main.add_block_site') }}" class="nav-link px-2 text-white">Add block</a></li>
                     <li class="nav-item"><a href="{{ url_for('upload.upload_key_site') }}" class="nav-link px-2 text-white">Upload keys</a></li>
+                    <li class="nav-item"><a href="{{ url_for('main.wiki_site') }}" class="nav-link px-2 text-white">Wiki page</a></li>
+                    <li class="nav-item"><a href="https://github.com/ghanem025/Blockchain-app" class="nav-link px-2 text-white">Github repo (private)</a></li>
                 </ul>
                 <div class="text-end">
                 </div>
@@ -39,6 +63,7 @@
         <div class="hero-body">
             <div class="container has-text-centered">
                {% block content %}
+               
                {% endblock %}
             </div>
         </div>

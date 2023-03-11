@@ -24,6 +24,11 @@ blockchain = Blockchain()
 def index():
     return render_template('index.html')
 
+
+@main.route('/wiki')
+def wiki_site():
+    return render_template('wiki.html')
+
 # Display blockchain in json format
 @main.route('/get_chain', methods=['GET'])
 def display_chain():
@@ -54,20 +59,23 @@ def update_file():
 def add_block():
     import uuid
     uuidOne = uuid.uuid4() 
-    public_key_data = request.form.get('publickey')    
-    public_key = serialization.load_pem_public_key(public_key_data.encode())
-    public_key_data = public_key_data + str(uuidOne) + '\n'
+    public_key_data = request.form.get('publickey')
+    try:
+        public_key = serialization.load_pem_public_key(public_key_data.encode())
+        public_key_data = public_key_data + str(uuidOne) + '\n'
+    except ValueError():
+        print("There was an error reading the public key, make sure to upload a public key before adding a block")
     diagnosis = request.form.get('diagnosis')
     doctor = request.form.get('doctor')
     symptoms = request.form.get('symptoms')
     treatment = request.form.get('treatment')
     prescription = request.form.get('prescription')
 
-    # diagnosis = zlib.compress(bytes(diagnosis, 'utf-8'), level=9)
-    # doctor = zlib.compress(bytes(doctor, 'utf-8'), level=1)
-    # symptoms = zlib.compress(bytes(symptoms, 'utf-8'), level=9)
-    # treatment = zlib.compress(bytes(treatment, 'utf-8'), level=9)
-    # prescription = zlib.compress(bytes(prescription, 'utf-8'), level=1)
+    diagnosis = zlib.compress(bytes(diagnosis, 'utf-8'), level=9)
+    doctor = zlib.compress(bytes(doctor, 'utf-8'), level=1)
+    symptoms = zlib.compress(bytes(symptoms, 'utf-8'), level=9)
+    treatment = zlib.compress(bytes(treatment, 'utf-8'), level=9)
+    prescription = zlib.compress(bytes(prescription, 'utf-8'), level=1)
 
     diagnosis = base64.b64encode(public_key.encrypt(
 		diagnosis,

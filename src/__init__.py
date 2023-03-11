@@ -1,7 +1,6 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 
-def create_app():
+def create_app():  
     app = Flask(__name__)
     
     from .auth import auth as auth_blueprint
@@ -14,5 +13,4 @@ def create_app():
     app.register_blueprint(upload_blueprint)
 
     return app
-
 

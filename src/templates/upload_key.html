@@ -5,8 +5,8 @@
     <form method="POST" action="/upload_private" enctype="multipart/form-data">    
         <div>
             <p> Upload Private key</p>
-            <input type="file" name="private_file">  
-            <input type = "submit" value="Upload">  
+            <input type="file" name="private_file">
+            <input  class="button  is-info " type = "submit" value="Upload">  
         </div>
         <div class="form-outline mb-5">
             <div class="control">
@@ -14,7 +14,7 @@
                 <textarea
                 id="prikey"
                 readonly
-                rows="4" 
+                rows="10" 
                 cols="50"
                 class="form-control"
                 type="privatekey"
@@ -28,17 +28,16 @@
         <div>
             <p> Upload public key</p>
             <input type="file" name="public_file">  
-            <input type = "submit" value="Upload">  
+            <input  class="button  is-info " type = "submit" value="Upload">  
         </div>
 
         <div class="form-outline mb-5">
             <div class="control">
                 <label class="form-label" for="user">Key</label>
                 <textarea
-                hidden
                 id="pubkey"
                 readonly
-                rows="4" 
+                rows="8" 
                 cols="50"
                 class="form-control"
                 type="publickey"
@@ -54,28 +53,10 @@
             </div>
         </div>
         <div>
-            <textarea
-                id="pubkeyid"
-                readonly
-                hidden
-                rows="4" 
-                cols="50"
-                class="form-control"
-                type="publickey"
-                name="publickey"
-                >{{ public_key }}</textarea>
+            <textarea id="pubkeyid" readonly hidden name="publickey">{{ public_key }}</textarea>
         </div>
         <div>
-            <textarea
-                id="prikeyid"
-                readonly
-                hidden
-                rows="4" 
-                cols="50"
-                class="form-control"
-                type="privatekey"
-                name="privatekey"
-            >{{ private_key }}</textarea>
+            <textarea id="prikeyid" readonly hidden name="privatekey">{{ private_key }}</textarea>
         </div>
     </form>
 </div>
