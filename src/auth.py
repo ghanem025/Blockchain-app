@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, send_file
 from io import BytesIO
 import zipfile
-from werkzeug.security import generate_password_hash, check_password_hash
 
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding

@@ -24,7 +24,6 @@ blockchain = Blockchain()
 def index():
     return render_template('index.html')
 
-
 @main.route('/wiki')
 def wiki_site():
     return render_template('wiki.html')
@@ -35,7 +34,6 @@ def display_chain():
     chain_data = []
     for block in blockchain.chain:
         chain_data.append(block.__dict__)
-        print("A BLOCK")
     json_str = json.dumps({'length': len(chain_data),
                             'chain': chain_data})
     response = json.loads(json_str)

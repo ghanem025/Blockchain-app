@@ -1,5 +1,5 @@
 from flask import Blueprint
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, flash, abort
 
 
 upload = Blueprint('upload', __name__)
@@ -12,13 +12,27 @@ def upload_key_site():
 @upload.route('/upload', methods=['POST'])
 def upload_key():
     uploaded_file = request.files['public_file']
-    file_info = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
-    return render_template("add_block.html", public_key=file_info)
+
+    if not allowed_file(uploaded_file):
+        flash("Error: File type not allowed, you must upload a .pem file. dumbass")
+        return render_template("add_block.html")
+        
+    public_key = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
+    return render_template("add_block.html", public_key=public_key)
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in {'.pem'}
 
 # allow user to send there private key, keys are stored on the client side
 @upload.route('/upload_private', methods=['POST'])
 def upload_private_key():
     uploaded_file = request.files['private_file']
+
+    if not allowed_file(uploaded_file):
+        flash("Error: File type not allowed, you must upload a .pem file. dumbass", "priv")
+        return render_template("add_block.html")
+
     private_key = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
     return render_template('upload_key.html', private_key = private_key)
 
@@ -26,6 +40,10 @@ def upload_private_key():
 @upload.route('/upload_public', methods=['POST'])
 def upload_public_key():
     uploaded_file = request.files['public_file']
-    public_key = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
 
+    if not allowed_file(uploaded_file):
+        flash("Error: File type not allowed, you must upload a .pem file. dumbass","pub")
+        return render_template("add_block.html", public_key=public_key)
+
+    public_key = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
     return render_template('upload_key.html', public_key = public_key)

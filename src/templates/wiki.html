@@ -4,7 +4,7 @@
 <style>
 
     .nav-pills .nav-link:hover {
-        background-color: #3d413cfd;
+        background-color: #0eb6ee;
         color: rgb(58, 57, 57);
     }
     .sidebar {
@@ -15,15 +15,26 @@
         left: 0;
         background-color: #1a1b1b;
         padding: 20px;
+        transition: all 0.3s ease;
+        opacity: 0.9;
     }   
 
     .content {
-        margin-left: 110px;
+        margin-left: 30px;
         padding: 20px;
+    }
+    .sidebar.hidden {
+        display: none;
+    }
+    .button{
+        left: 50%;
     }
 </style>
 
+
+<button id="sidebar-toggle" class="button is-info" >Toggle Sidebar</button>
 <div class="sidebar">
+    
     <ul class="nav nav-pills">
         <li style="text-align: left;"><a href="#Genkey" class="nav-link px-2 text-white">How to Generate your keys</a></li>
         <li style="text-align: left;"><a href="#view" class="nav-link px-2 text-white">Viewing your data</a></li>
@@ -32,6 +43,16 @@
     </ul>
 
 </div>
+
+<script>
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const sidebar = document.querySelector('.sidebar');
+  
+    sidebarToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('hidden');
+      sidebarToggle.classList.toggle('button-clicked');
+    });
+</script>
 
 <div class="content">
     <h1  class="title" style= "text-align: left;" >
