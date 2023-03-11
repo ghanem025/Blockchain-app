@@ -13,7 +13,7 @@ def upload_key_site():
 def upload_key():
     uploaded_file = request.files['public_file']
 
-    if not allowed_file(uploaded_file):
+    if not allowed_file(uploaded_file.filename):
         flash("Error: File type not allowed, you must upload a .pem file. dumbass")
         return render_template("add_block.html")
         
@@ -22,28 +22,28 @@ def upload_key():
 
 def allowed_file(filename):
     return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in {'.pem'}
+           filename.rsplit('.', 1)[1].lower() in {'pem'}
 
 # allow user to send there private key, keys are stored on the client side
 @upload.route('/upload_private', methods=['POST'])
 def upload_private_key():
     uploaded_file = request.files['private_file']
 
-    if not allowed_file(uploaded_file):
+    if not allowed_file(uploaded_file.filename):
         flash("Error: File type not allowed, you must upload a .pem file. dumbass", "priv")
-        return render_template("add_block.html")
+        return render_template("upload_key.html")
 
     private_key = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
-    return render_template('upload_key.html', private_key = private_key)
+    return render_template('upload_key.html', private_key=private_key )
 
 # allow user to send there public key, keys are stored on the client side
 @upload.route('/upload_public', methods=['POST'])
 def upload_public_key():
     uploaded_file = request.files['public_file']
 
-    if not allowed_file(uploaded_file):
+    if not allowed_file(uploaded_file.filename):
         flash("Error: File type not allowed, you must upload a .pem file. dumbass","pub")
-        return render_template("add_block.html", public_key=public_key)
+        return render_template("upload_key.html")
 
     public_key = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
     return render_template('upload_key.html', public_key = public_key)
