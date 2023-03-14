@@ -69,14 +69,8 @@ def add_block():
     treatment = request.form.get('treatment')
     prescription = request.form.get('prescription')
 
-    diagnosis = zlib.compress(bytes(diagnosis, 'utf-8'), level=9)
-    doctor = zlib.compress(bytes(doctor, 'utf-8'), level=1)
-    symptoms = zlib.compress(bytes(symptoms, 'utf-8'), level=9)
-    treatment = zlib.compress(bytes(treatment, 'utf-8'), level=9)
-    prescription = zlib.compress(bytes(prescription, 'utf-8'), level=1)
-
     diagnosis = base64.b64encode(public_key.encrypt(
-		diagnosis,
+		diagnosis.encode(),
 		padding.OAEP(
 			mgf=padding.MGF1(algorithm=hashes.SHA256()),
 			algorithm=hashes.SHA256(),
@@ -84,7 +78,7 @@ def add_block():
 		)
 	)).decode('utf-8')
     doctor = base64.b64encode(public_key.encrypt(
-		doctor,
+		doctor.encode(),
 		padding.OAEP(
 			mgf=padding.MGF1(algorithm=hashes.SHA256()),
 			algorithm=hashes.SHA256(),
@@ -92,7 +86,7 @@ def add_block():
 		)
 	)).decode('utf-8')
     symptoms = base64.b64encode(public_key.encrypt(
-		symptoms,
+		symptoms.encode(),
 		padding.OAEP(
 			mgf=padding.MGF1(algorithm=hashes.SHA256()),
 			algorithm=hashes.SHA256(),
@@ -100,7 +94,7 @@ def add_block():
 		)
 	)).decode('utf-8')
     treatment = base64.b64encode(public_key.encrypt(
-		treatment,
+		treatment.encode(),
 		padding.OAEP(
 			mgf=padding.MGF1(algorithm=hashes.SHA256()),
 			algorithm=hashes.SHA256(),
@@ -108,7 +102,7 @@ def add_block():
 		)
 	)).decode('utf-8')
     prescription = base64.b64encode(public_key.encrypt(
-		prescription,
+		prescription.encode(),
 		padding.OAEP(
 			mgf=padding.MGF1(algorithm=hashes.SHA256()),
 			algorithm=hashes.SHA256(),
@@ -138,9 +132,19 @@ def view_history():
     print(transactions)
     private_key = serialization.load_pem_private_key(private_key_data.encode(), password=None)
     chain_data = []
+    fields = ['diagnosis', 'doctor', 'symptoms', 'treatment', 'prescription']
     for block in blockchain.chain:
-        temp_dict = block.__dict__
+        temp_dict = dict(block.__dict__)
         if temp_dict['uuidOne'] in transactions: # come back for performance optimization
+            for field in fields:
+                temp_dict[field] = private_key.decrypt(
+                    base64.b64decode(temp_dict[field]),
+                    padding.OAEP(
+                        mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                        algorithm=hashes.SHA256(),
+                        label=None
+                    )
+                ).decode('utf-8')
             chain_data.append(temp_dict)
     return render_template('view_history.html', chain_data=chain_data)
 
