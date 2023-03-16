@@ -1,0 +1,76 @@
+{% extends "base.html" %} {% block content %}
+
+<head>
+  <!-- Datatables.net CSS -->
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css"
+  />
+  <link rel="stylesheet" href="css/style.css">
+  <!-- jQuery library -->
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <!-- Datatables.net Javascript -->
+  <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+  <script>
+    var value1 = localStorage.getItem("public_key");
+    var value2 = localStorage.getItem("private_key");
+    var data = { public_key: value1, private_key: value2 };
+    fetch("/my_flask_endpoint", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        // handle the response from the Flask app
+      })
+      .catch((error) => {
+        console.error("Error sending request to Flask app:", error);
+      });
+  </script>
+</head>
+<style>
+    html {
+        height: 100%;
+    }
+    body {
+        min-height: 100%;
+    }
+</style>
+<body>
+  <div class="container">
+    <table id="history_table">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Doctor</th>
+          <th>Symptoms</th>
+          <th>Diagnosis</th>
+          <th>Treatment</th>
+          <th>Prescriptions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in chain_data %}
+        <tr>
+          <td>{{ item["timestamp"] }}</td>
+          <td>{{ item["doctor"] }}</td>
+          <td>{{ item["symptoms"] }}</td>
+          <td>{{ item["diagnosis"] }}</td>
+          <td>{{ item["treatment"] }}</td>
+          <td>{{ item["prescription"] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <script>
+      $(document).ready(function () {
+        $("#history_table").DataTable();
+      });
+    </script>
+    
+  </div>
+
+</body>
+
+{% endblock %}

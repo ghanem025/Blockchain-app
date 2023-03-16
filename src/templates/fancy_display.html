@@ -1,0 +1,53 @@
+{% extends "base.html" %} {% block content %}
+
+<head>
+  <!-- Datatables.net CSS -->
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css"
+  />
+  <link rel="stylesheet" href="static/css/style.css">
+  <!-- jQuery library -->
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <!-- Datatables.net Javascript -->
+  <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+</head>
+<style>
+
+</style>
+<body>
+  <div class="container" style= "overflow: auto;">
+    <table id="fancy_table" >
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Doctor</th>
+          <th>Symptoms</th>
+          <th>Diagnosis</th>
+          <th>Treatment</th>
+          <th>Prescriptions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in chain_data %}
+        <tr>
+          <td>{{ item["timestamp"] }}</td>
+          <td>{{ item["doctor"] }}</td>
+          <td>{{ item["symptoms"] }}</td>
+          <td>{{ item["diagnosis"] }}</td>
+          <td>{{ item["treatment"] }}</td>
+          <td>{{ item["prescription"] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <script>
+      $(document).ready(function () {
+        $("#fancy_table").DataTable();
+      });
+    </script>
+  </div>
+</body>
+
+{% endblock %}

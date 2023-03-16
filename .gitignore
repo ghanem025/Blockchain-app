@@ -1,0 +1,6 @@
+.project/
+__pycache__
+.venv/
+instance
+blockchain.pickle
+src/vyper
