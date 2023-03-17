@@ -9,7 +9,7 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
 from flask import Blueprint
-from flask import Flask, jsonify, render_template, request, send_file
+from flask import Flask, jsonify, render_template, request, send_file, redirect, flash, url_for
 
 # Creating the Web
 # App using flask
@@ -128,9 +128,12 @@ def fancy_display():
 def view_history():
     public_key_data = request.form.get('publickey')
     private_key_data = request.form.get('privatekey')
-    transactions = public_key_data.split("\r\n")[public_key_data.split('\r\n').index('-----END PUBLIC KEY-----')+1:]
-    print(transactions)
-    private_key = serialization.load_pem_private_key(private_key_data.encode(), password=None)
+    try:
+        transactions = public_key_data.split("\r\n")[public_key_data.split('\r\n').index('-----END PUBLIC KEY-----')+1:]
+        private_key = serialization.load_pem_private_key(private_key_data.encode(), password=None)
+    except ValueError:
+        flash("There was an error reading your private key or public, make sure you are uploading your private key not your public key", "Valerr")
+        return redirect(url_for('upload.upload_key_site'))
     chain_data = []
     fields = ['diagnosis', 'doctor', 'symptoms', 'treatment', 'prescription']
     for block in blockchain.chain:

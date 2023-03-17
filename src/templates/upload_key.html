@@ -2,6 +2,13 @@
 
 {% block content %}
 <div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+        {% if category == 'Valerr' %}
+            <div class="alert alert-info">{{ message }}</div>
+        {% endif %}
+    {% endfor %}
+    {% endwith %}
     <form method="POST" action="/upload_private" enctype="multipart/form-data">    
         <div>
             <p> Upload Private key</p>
@@ -14,7 +21,6 @@
                     {% endif %}
                 {% endfor %}
             {% endwith %}
-
         </div>
         <div class="form-outline mb-5">
             <div class="control">
@@ -36,7 +42,7 @@
         <div>
             <p> Upload public key</p>
             <input type="file" name="public_file">  
-            <input  class="button  is-info " type = "submit" value="Upload">
+            <input  class="button  is-info " type = "submit"  value="Upload">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% for category, message in messages %}
                     {% if category == 'pub' %}
@@ -78,21 +84,30 @@
 
 <script>
     var private_key = localStorage.getItem('private_key');
+    console.log(private_key);
 
-    if(!private_key) {
-        private_key  = `{{ private_key }}`;
-        localStorage.setItem('private_key', private_key);
+    private_key_field  = `{{ private_key }}`
+    localStorage.setItem('private_key', private_key_field);
+
+    if(!private_key){
+        private_key = localStorage.getItem('private_key');
     }
 
-    var public_key = localStorage.getItem('public_key');
+    console.log("you pressed me");
 
+    var public_key = localStorage.getItem('public_key');
+    public_key_field  = `{{ public_key }}`;
+    localStorage.setItem('public_key', public_key_field);
+
+    if(!public_key){
+        public_key = localStorage.getItem('public_key');
+    }
     
-        public_key  = `{{ public_key }}`;
-        localStorage.setItem('public_key', public_key);
-    
-   
     var private_key_element = document.getElementById("prikey");
     private_key_element.textContent = private_key;
+
+    var prikey_element = document.getElementById("prikeyid");
+    prikey_element.textContent = private_key;
    
     var public_key_element = document.getElementById("pubkey");
     public_key_element.textContent = public_key;
@@ -100,9 +115,6 @@
     var pubkey_element = document.getElementById("pubkeyid");
     pubkey_element.textContent = public_key;
     
-    var prikey_element = document.getElementById("prikeyid");
-    prikey_element.textContent = private_key;
-
 </script>
 
 

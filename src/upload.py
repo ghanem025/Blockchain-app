@@ -14,7 +14,7 @@ def upload_key():
     uploaded_file = request.files['public_file']
 
     if not allowed_file(uploaded_file.filename):
-        flash("Error: File type not allowed, you must upload a .pem file. dumbass")
+        flash("Error: File type not allowed, you must upload a .pem file.")
         return render_template("add_block.html")
         
     public_key = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
@@ -30,7 +30,7 @@ def upload_private_key():
     uploaded_file = request.files['private_file']
 
     if not allowed_file(uploaded_file.filename):
-        flash("Error: File type not allowed, you must upload a .pem file. dumbass", "priv")
+        flash("Error: File type not allowed, you must upload a .pem file.", "priv")
         return render_template("upload_key.html")
 
     private_key = uploaded_file.read().decode('utf-8').replace("\\n", "\n")
@@ -42,7 +42,7 @@ def upload_public_key():
     uploaded_file = request.files['public_file']
 
     if not allowed_file(uploaded_file.filename):
-        flash("Error: File type not allowed, you must upload a .pem file. dumbass","pub")
+        flash("Error: File type not allowed, you must upload a .pem file.","pub")
         return render_template("upload_key.html")
 
     public_key = uploaded_file.read().decode('utf-8').replace("\\n", "\n")

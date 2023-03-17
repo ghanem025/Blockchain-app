@@ -9,3 +9,13 @@ This article is around 8 pages long and provides a brief introduction to blockch
 This article is around 14 pages long and provides a general overview of the use of blockchain technology in healthcare. It covers topics such as the benefits and challenges of using blockchain in healthcare, examples of blockchain-based healthcare applications, and future directions for the field.
 
 Both of these articles are relatively short and provide a good introduction to the topic, so they may be a good place to start if you are short on time. However, keep in mind that they may not provide as much detail or depth as some of the longer articles and research papers.
+
+
+https://www.hindawi.com/journals/scn/2022/4941214/
+
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8080150/
+
+For our networking, when a block is added, each node will do PoW (proof of work) on that block.
+the first to finish will be the one to update the blockchain with the added block.
+Then synchronization needs to happen between all nodes.
+
