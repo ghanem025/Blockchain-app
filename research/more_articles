@@ -1,0 +1,8 @@
+https://www.hindawi.com/journals/scn/2022/4941214/
+
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8080150/
+
+For our networking, when a block is added, each node will do PoW (proof of work) on that block.
+the first to finish will be the one to update the blockchain with the added block.
+Then synchronization needs to happen between all nodes.
+

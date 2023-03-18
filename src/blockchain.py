@@ -33,7 +33,9 @@ class Blockchain:
         self.create_genesis_block() # creating our first block (genesis block)
         self.block_is_valid = None
         self.load_chain()
-    
+        self.host = get_host()
+
+
     def create_genesis_block(self):
         import time
         import uuid
@@ -41,6 +43,7 @@ class Blockchain:
         first_block = Block(str(uuidOne) ,"flu", "Dr.Balls", "itchy ball", "amputation", "crack", 0, [], time.strftime('%X %x %Z'), "0") # I used time.strftime for an acurate date
         first_block.hash = first_block.create_hash()
         self.chain.append(first_block)
+        self.save_chain()
     
     @property
     def last_block(self):
@@ -93,7 +96,7 @@ class Blockchain:
         return (block_hash.startswith('0' * Blockchain.difficulty) and block_hash == block.create_hash())
     
     def add_new_transaction(self, transaction):
-        self.unconfirmed_transactions.append(transaction)
+        self.unconfirmed_transactions.append(transaction) # the current transaction will be stored here,
 
     def mine(self, uuidOne,  diagnosis, doctor, symptoms, treatment, prescription):
         import time
