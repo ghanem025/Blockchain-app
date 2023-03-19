@@ -4,7 +4,6 @@ __pycache__
 instance
 blockchain.pickle
 src/vyper
-tech_article.tex
 tech_article.out
 tech_article.log
 tech_article.aux
