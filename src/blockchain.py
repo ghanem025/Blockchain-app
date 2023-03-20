@@ -2,7 +2,11 @@ from hashlib import sha256
 import json
 import os
 import pickle
+import requests
+import socket
 import sys
+import time
+import uuid
 import zlib
 
 #This is my own implementation of a blockchain.
@@ -30,21 +34,84 @@ class Blockchain:
     def __init__(self):
         self.unconfirmed_transactions = [] #maybe we can have the doctor's transaction stored here?
         self.chain = []
-        self.create_genesis_block() # creating our first block (genesis block)
         self.block_is_valid = None
         self.load_chain()
-        self.host = get_host()
+        self.host = self.get_host()
+        self.port = 5000
+        self.nodes = {} # list of all the nodes on the network
+        print('the host is ' + self.host)
+    
+    
+    def wait_for_block(self):
+        HOST = '0.0.0.0'
+        PORT = 5000 
+        print("Socket started")
+           
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.bind((HOST, PORT))
+            s.listen()
+            conn, addr = s.accept()
+            with conn:
+                print('Connected by', addr)
+                while True:
+                    data = conn.recv(1024)
+                    if not data:
+                        break
+                    # Process the received data here
+                    data_variable = pickle.loads(data)
+                    print(
+                        f'''
+                        Diagnosis:{data_variable.diagnosis}
+                        Doctor: {data_variable.doctor}
+                        symptoms: {data_variable.symptoms}
+                        treatment: {data_variable.treatment}
+                        prescription: {data_variable.prescription}
+                        ''')
+                    
+                    proof_of_work = self.add_new_transaction(data_variable)
+                    if proof_of_work:
+                        # add to block chain, broad cast to nodes
+                        msg = "broadcasting message: Your block is valid and will be added to the blockchain, other nodes will be notified"
+                        
+                    else:
+                        msg = "Your block is invalid and will not be added to the block"
+                    conn.sendall(bytes(msg, 'utf-8'))
+
+    def send_block(self,first_block):
+        HOST = '127.0.0.1'  # The server's hostname or IP address
+        PORT = 5000       # The port used by the server
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect((HOST, PORT))
+            s.sendall(pickle.dumps(first_block))
+            data = s.recv(1024)
+            print('Received:', data)
 
 
+    def add_node(self, host, port):
+        node = {"host": host, "port": port}
+        self.nodes[host + ":" + str(port)] = node
+
+    def remove_node(self, host, port):
+        del self.nodes[host + ":" + str(port)]
+
+    def get_nodes(self):
+        return list(self.nodes.values())
+
+    def get_host(self):
+
+        # fetch public IP address from ifconfig.co
+        url = 'https://ifconfig.co/ip?4'
+        response = requests.get(url)
+        public_ip = response.text.strip()
+
+        return public_ip
+        
     def create_genesis_block(self):
-        import time
-        import uuid
         uuidOne = uuid.uuid1()
         first_block = Block(str(uuidOne) ,"flu", "Dr.Balls", "itchy ball", "amputation", "crack", 0, [], time.strftime('%X %x %Z'), "0") # I used time.strftime for an acurate date
         first_block.hash = first_block.create_hash()
         self.chain.append(first_block)
-        self.save_chain()
-    
+        self.save_chain() 
     @property
     def last_block(self):
         return self.chain[-1]
@@ -80,7 +147,7 @@ class Blockchain:
         previous_hash = self.last_block.hash
         # comparing the chains last block and the block objects previous hash
         if previous_hash != block.previous_hash:
-            print("something is not right, the previous hash doesn't match")
+            print("ERROR: Something went wrong, the blockchains previous hash does not match the previous_hash of the block, block will not be added to chain")
             return False
         if not self.is_valid_proof(block, proof):
             self.block_is_valid = False
@@ -95,22 +162,20 @@ class Blockchain:
         self.block_is_valid = True
         return (block_hash.startswith('0' * Blockchain.difficulty) and block_hash == block.create_hash())
     
-    def add_new_transaction(self, transaction):
-        self.unconfirmed_transactions.append(transaction) # the current transaction will be stored here,
+    def add_new_transaction(self, block):
+        self.unconfirmed_transactions.append(block.transaction)# the current transaction will be stored here
+        return self.mine(block)
 
-    def mine(self, uuidOne,  diagnosis, doctor, symptoms, treatment, prescription):
+    def mine(self, new_block):
         import time
         if not self.unconfirmed_transactions:
             return False
-        last_block = self.last_block
-
-        new_block = Block(uuidOne, diagnosis, 
-        doctor, symptoms, treatment, prescription, index=last_block.index + 1, 
-        transaction=self.unconfirmed_transactions, 
-        timestamp=time.strftime('%X %x %Z'),
-        previous_hash=last_block.hash)
-
+        print("MINE")
         proof = self.proof_of_work(new_block)
         self.add_block(new_block, proof)
         self.unconfirmed_transactions = []
         return new_block.index
+    
+    def create():
+        b = Blockchain()
+        return b

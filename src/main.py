@@ -110,8 +110,17 @@ def add_block():
 		)
 	)).decode('utf-8')
     
-    blockchain.add_new_transaction(1)
-    print(blockchain.mine(str(uuidOne), diagnosis, doctor, symptoms, treatment, prescription))
+    transaction = {
+        'sender': doctor,
+        'recipient': str(uuidOne)
+    }
+    import time
+    new_block = Block(str(uuidOne), diagnosis, doctor, symptoms, treatment, 
+                      prescription, blockchain.last_block.index + 1, 
+                      transaction, time.strftime('%X %x %Z'), blockchain.last_block.hash)
+    added_block = blockchain.add_new_transaction(new_block) 
+    if not added_block:
+        print("did not add block")
     return render_template("update_key.html", key=public_key_data)
 
 # displaying block information
