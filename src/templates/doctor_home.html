@@ -1,0 +1,63 @@
+{% extends "doctor.html" %}
+{% block content %}
+<style>
+    .fade-in-image { 
+        animation: fadeIn 3s; 
+    }
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+    .no-margin {
+    margin: 0 !important; 
+    padding: 0 !important;
+  }
+    .centered {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    p {
+  font-size: 25px;
+}
+</style>
+<body>
+    <div class="container" >
+        <div class="fade-in-image" style="padding: 20px;">
+            <img class="no-margin" src="{{ url_for('static', filename='images/banner.jpg') }}" style="max-width: 100% !important;" alt="Your Image" width="2000" height="400">
+            <div class="centered title fade-in-image">Welcome Doctor</div>
+        </div>
+    </div>
+
+    <div>
+        <div class="fade-in-image" style="position: relative; top: 50%;">
+            <div>
+                <p style="text-align: center; max-width: 200px;">You can view all the data in the blockchain (it is encrypted)</p>
+            </div>
+            <div class="control">
+                <button style="left:1.5%; top:60px;"class="button is-block is-large is-info " onclick="location.href='/fancy_display'">View Chain</button>
+            </div>
+        </div>
+        <div class="fade-in-image" style="position: relative; bottom:205px; left: 42%;">
+            <div>
+                <p  style ="text-align: center; max-width: 220px;">As a doctor you can add a block to the blockchain (Diagnosis a patient)</p>
+            </div>
+            <div class=" control">
+                <button style="left: 3%; top:20px;"class="button is-block is-large is-info " onclick="location.href='/add_block'">Add block</button>
+            </div>
+        </div>
+        <div class="fade-in-image" style="position: relative; bottom:440px; left: 85%;">
+            <div>
+                <p  style ="text-align: center; max-width: 220px;"> Generate both public and private keys to view/add data to the blockchain</p>
+            </div>
+            <div class=" control">
+                <button style="left: 1.5%; top:20px;"class="button is-block is-large is-info " onclick="location.href='/generate_key'">Generate Keys</button>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+
+{% endblock %}
