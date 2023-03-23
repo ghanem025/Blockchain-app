@@ -27,7 +27,7 @@ def doctor_site():
  
 @main.route('/patient')
 def patient_site():
-    return render_template('patient.html')
+    return render_template('patient_home.html')
 
 #default route
 @main.route('/')
