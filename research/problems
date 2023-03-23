@@ -1,9 +1,11 @@
 # we have some serious problems and loop holes in our blockchain implementation
 # all of this can litreally be fixed by having a smart contract, we really need a smart contract for this blockchain to even make sense tbh
 # we might have to abandon networking for now, we need to really focus on getting this smart contract working.
+
 - How does a doctor view the patients data
 
 - doctor shouldn't be using patients public key to add block
 
 - doctor should send a request to the patient using a smart contract. Fuck. this makes sense since the patient has ownership of the data and the doctor can only access it with the patients permission.
 
+- Diagnosis 

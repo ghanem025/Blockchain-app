@@ -29,7 +29,6 @@ class Block:
         block_string = json.dumps(self.__dict__, sort_keys=True)
         return sha256(block_string.encode()).hexdigest()
     
-
 class Blockchain:
     def __init__(self):
         self.unconfirmed_transactions = [] #maybe we can have the doctor's transaction stored here?
@@ -39,9 +38,64 @@ class Blockchain:
         self.host = self.get_host()
         self.port = 5000
         self.nodes = {} # list of all the nodes on the network
-        print('the host is ' + self.host)
+        # self.contract = self.SmartContract()
+
+    # class SmartContract:
+
+    #     def check_signature(self, key, signature, message):
+    #         # check the auth_doctor dict and see if they are there
+    #         # if they are not the contract will refuse the transaction.
+    #         # otherwise we continue s\
+    #         from cryptography.hazmat.primitives.asymmetric import padding, rsa
+    #         from cryptography.hazmat.primitives import serialization, hashes
+    #         from cryptography.exceptions import InvalidSignature
+    #         public_key = serialization.load_pem_public_key(key.encode())
+    #         if key.strip():
+    #             try:
+    #                 public_key.verify(
+    #                     signature,
+    #                     message,
+    #                     padding.PSS(
+    #                         mgf=padding.MGF1(hashes.SHA256()),
+    #                         salt_length=padding.PSS.MAX_LENGTH
+    #                     ),
+    #                     hashes.SHA256()
+    #                 )
+    #                 print('Signature is valid')
+    #             except InvalidSignature:
+    #                 print('Signature is invalid')
+    #             # self.send_request()
+    #             return True
+    #         else:
+    #             print("request not allowed")
+    #             return False
     
-    
+    def wait_for_request(self):
+        HOST = '0.0.0.0'
+        PORT = 5000 
+        print("Socket started")
+           
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.bind((HOST, PORT))
+            s.listen()
+            conn, addr = s.accept()
+            with conn:
+                print('Connected by', addr)
+                while True:
+                    data = conn.recv(4096)
+                    if not data:
+                        break
+                    # Process the received data here
+                    data_variable = pickle.loads(data)
+                    print(
+                        f'''
+                        Diagnosis:{data_variable.diagnosis}
+                        Doctor: {data_variable.doctor}
+                        symptoms: {data_variable.symptoms}
+                        treatment: {data_variable.treatment}
+                        prescription: {data_variable.prescription}
+                        ''')
+
     def wait_for_block(self):
         HOST = '0.0.0.0'
         PORT = 5000 
@@ -58,24 +112,25 @@ class Blockchain:
                     if not data:
                         break
                     # Process the received data here
-                    data_variable = pickle.loads(data)
-                    print(
-                        f'''
-                        Diagnosis:{data_variable.diagnosis}
-                        Doctor: {data_variable.doctor}
-                        symptoms: {data_variable.symptoms}
-                        treatment: {data_variable.treatment}
-                        prescription: {data_variable.prescription}
-                        ''')
-                    
-                    proof_of_work = self.add_new_transaction(data_variable)
-                    if proof_of_work:
-                        # add to block chain, broad cast to nodes
-                        msg = "broadcasting message: Your block is valid and will be added to the blockchain, other nodes will be notified"
-                        
-                    else:
-                        msg = "Your block is invalid and will not be added to the block"
-                    conn.sendall(bytes(msg, 'utf-8'))
+                    data_variable = data
+                    print(data)
+
+    def send_request(self, transaction_id):
+        HOST = '127.0.0.1'  # The server's hostname or IP address
+        PORT = 5000       # The port used by the server
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect((HOST, PORT))
+                                # decrypt_data(data_variable)
+            print(f'id is {transaction_id}')
+            fields = ['diagnosis', 'doctor', 'symptoms', 'treatment', 'prescription']
+            for block in self.chain:
+                print(f"found block {block.doctor}")
+                temp_dict = dict(block.__dict__)
+                if temp_dict['uuidOne'] in transaction_id: # come back for performance optimization
+                    print("SENDING BLOCK")
+                    s.sendall(pickle.dumps(block))
+            data = s.recv(4096)
+            print('Received:', data)
 
     def send_block(self,first_block):
         HOST = '127.0.0.1'  # The server's hostname or IP address
@@ -111,7 +166,8 @@ class Blockchain:
         first_block = Block(str(uuidOne) ,"flu", "Dr.Balls", "itchy ball", "amputation", "crack", 0, [], time.strftime('%X %x %Z'), "0") # I used time.strftime for an acurate date
         first_block.hash = first_block.create_hash()
         self.chain.append(first_block)
-        self.save_chain() 
+        self.save_chain()
+    
     @property
     def last_block(self):
         return self.chain[-1]

@@ -20,13 +20,27 @@ main = Blueprint('main', __name__)
 blockchain = Blockchain()
 
 #default route
+@main.route('/doctor')
+def doctor_site():
+    return render_template('doctor.html')
+
+ 
+@main.route('/patient')
+def patient_site():
+    return render_template('patient.html')
+
+#default route
 @main.route('/')
 def index():
     return render_template('index.html')
 
-@main.route('/wiki')
-def wiki_site():
-    return render_template('wiki.html')
+@main.route('/doctor_wiki')
+def doctor_wiki_site():
+    return render_template('doctor_wiki.html')
+
+@main.route('/patient_wiki')
+def patient_wiki_site():
+    return render_template('patient_wiki.html')
 
 # Display blockchain in json format
 @main.route('/get_chain', methods=['GET'])
@@ -63,6 +77,7 @@ def add_block():
         public_key_data = public_key_data + str(uuidOne) + '\n'
     except ValueError():
         print("There was an error reading the public key, make sure to upload a public key before adding a block")
+
     diagnosis = request.form.get('diagnosis')
     doctor = request.form.get('doctor')
     symptoms = request.form.get('symptoms')
@@ -131,32 +146,49 @@ def fancy_display():
         chain_data.append(block.__dict__)
     return render_template('fancy_display.html', chain_data=chain_data)
 
+# displaying block information
+@main.route('/patient_display')
+def patient_display():
+    chain_data = []
+    for block in blockchain.chain:
+        chain_data.append(block.__dict__)
+    return render_template('patient_table.html', chain_data=chain_data)
+
 
 # display history
 @main.route('/view_history', methods=['POST'])
 def view_history():
     public_key_data = request.form.get('publickey')
     private_key_data = request.form.get('privatekey')
+    transaction_id = request.form.get('transactionID')
     try:
         transactions = public_key_data.split("\r\n")[public_key_data.split('\r\n').index('-----END PUBLIC KEY-----')+1:]
         private_key = serialization.load_pem_private_key(private_key_data.encode(), password=None)
     except ValueError:
         flash("There was an error reading your private key or public, make sure you are uploading your private key not your public key", "Valerr")
         return redirect(url_for('upload.upload_key_site'))
+    if transaction_id:
+        transactions = transaction_id
+        print("the ratnt")
     chain_data = []
     fields = ['diagnosis', 'doctor', 'symptoms', 'treatment', 'prescription']
     for block in blockchain.chain:
         temp_dict = dict(block.__dict__)
         if temp_dict['uuidOne'] in transactions: # come back for performance optimization
             for field in fields:
-                temp_dict[field] = private_key.decrypt(
-                    base64.b64decode(temp_dict[field]),
-                    padding.OAEP(
-                        mgf=padding.MGF1(algorithm=hashes.SHA256()),
-                        algorithm=hashes.SHA256(),
-                        label=None
-                    )
-                ).decode('utf-8')
+                try:
+                    temp_dict[field] = private_key.decrypt(
+                        base64.b64decode(temp_dict[field]),
+                        padding.OAEP(
+                            mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                            algorithm=hashes.SHA256(),
+                            label=None
+                        )
+                    ).decode('utf-8')
+                except ValueError:
+                    flash("Could not user your private key to decrypt the data, make sure you uploaded the correct private key", "Valerr")
+                    return redirect(url_for('upload.upload_key_site'))
+
             chain_data.append(temp_dict)
     return render_template('view_history.html', chain_data=chain_data)
 
