@@ -22,12 +22,12 @@ blockchain = Blockchain()
 #default route
 @main.route('/doctor')
 def doctor_site():
-    return render_template('doctor.html')
+    return render_template('doctor_home.html')
 
  
 @main.route('/patient')
 def patient_site():
-    return render_template('patient.html')
+    return render_template('patient_home.html')
 
 #default route
 @main.route('/')
