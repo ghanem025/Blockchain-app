@@ -1,10 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
+<style>
+.fade-in-image { animation: fadeIn 3s; }
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+</style>
 <body>
+    
     <div class="container">
         <h1 class="title">
             Welcome to our Website
         </h1>
+        <div class="fade-in-image">
+            
+            <img src="{{ url_for('static', filename='images/docimg.jpg') }}" alt="Your Image">
+            Welcome to our Website
+        </div>
         <h1 class="title dark-mode">The goal of this website is to showcase our personal health record (PHR) system. 
             This PHR system uses a blockchain to store the patients data.
         </h1>
@@ -22,5 +36,10 @@
         </div>
     </div>
 </body>
-
+<script>
+document.addEventListener("DOMContentLoaded", function(event) {
+  var imageContainer = document.querySelector('.image-container');
+  imageContainer.classList.add('fade-in');
+});
+</script>
 {% endblock %}

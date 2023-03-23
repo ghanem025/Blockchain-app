@@ -1,0 +1,33 @@
+{% extends "doctor.html" %}
+{% block content %}
+<style>
+    .fade-in-image { 
+        animation: fadeIn 3s; 
+    }
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+    .no-margin {
+    margin: 0 !important; 
+    padding: 0 !important;
+  }
+    .centered {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+
+</style>
+<body>
+    <div class="container" >
+        <div class="fade-in-image" style="padding: 20px;">
+            <img class="no-margin" src="{{ url_for('static', filename='images/banner.jpg') }}" style="max-width: 100% !important;" alt="Your Image" width="2000" height="400">
+            <div class="centered title fade-in-image">Welcome Doctor</div>
+        </div>
+    </div>
+</body>
+
+{% endblock %}
