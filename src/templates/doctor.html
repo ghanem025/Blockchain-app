@@ -76,10 +76,10 @@
                     <li class="nav-item"><a href="{{ url_for('main.index') }}" class="nav-link px-2 text-white">Home</a></li>
                     <li><a href="{{ url_for('main.fancy_display') }}" class="nav-link px-2 text-white">View chain</a></li>
                     <li class="nav-item"><a href="{{ url_for('auth.generate_key') }}" class="nav-link px-2 text-white">Generate key</a></li>
-                    <li class="nav-item"><a href="{{ url_for('main.add_block_site') }}" class="nav-link px-2 text-white">Add block</a></li>
-                    <li class="nav-item"><a href="{{ url_for('main.doctor_wiki_site') }}" class="nav-link px-2 text-white">Wiki page</a></li>
-                    <li class="nav-item"><a href="https://github.com/ghanem025/Blockchain-app" class="nav-link px-2 text-white">Github repo</a></li>
-                    <li class="nav-item"><button id="mode-switcher" class="button is-info" style="left: 326.5%;">Switch to Dark Mode</button></li>
+                    <li class="nav-item"><a href="{{ url_for('main.add_block_site') }}" class="nav-link px-2 text-white">Add Record</a></li>
+                    <li class="nav-item"><a href="{{ url_for('main.doctor_wiki_site') }}" class="nav-link px-2 text-white">Help</a></li>
+                    <li class="nav-item"><a href="https://github.com/ghanem025/Blockchain-app" class="nav-link px-2 text-white">View Source Code</a></li>
+                    <li class="nav-item"><button id="mode-switcher" class="button is-info" style="left: 500%;">Dark Mode</button></li>
                 </ul>
                 <div class="text-end">
                 </div>
@@ -103,19 +103,19 @@
         const mode = localStorage.getItem("mode");
         if (mode === "dark") {
             document.body.classList.add("dark-mode");
-            modeSwitcher.textContent = 'Switch to Light Mode';
+            modeSwitcher.textContent = 'Light Mode';
         } else {
             document.body.classList.remove("dark-mode");
-            modeSwitcher.textContent = 'Switch to Dark Mode';
+            modeSwitcher.textContent = 'Dark Mode';
         }
 
         const toggleModeBtn = document.getElementById("mode-switcher");
         toggleModeBtn.addEventListener("click", () => {
             const currentMode = document.body.classList.contains("dark-mode") ? "light" : "dark";
             if(currentMode == "light"){
-                modeSwitcher.textContent = 'Switch to Dark Mode';
+                modeSwitcher.textContent = 'Dark Mode';
             }else{
-                modeSwitcher.textContent = 'Switch to Light Mode';
+                modeSwitcher.textContent = 'Light Mode';
             }
             console.log(currentMode);
             localStorage.setItem("mode", currentMode);

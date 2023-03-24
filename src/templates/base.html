@@ -65,7 +65,7 @@
     
                 <ul class="nav nav-pills">
                     <li class="nav-item"><a href="{{ url_for('main.index') }}" class="nav-link px-2 text-white">Home</a></li>
-                    <li class="nav-item"><button id="mode-switcher" class="button is-info" style="left: 600%;">Switch to Dark Mode</button></li>
+                    <li class="nav-item"><button id="mode-switcher" class="button is-info" style="left: 959%;">Dark Mode</button></li>
                 </ul>
                 <div class="text-end">
                 </div>
@@ -87,19 +87,19 @@
         const mode = localStorage.getItem("mode");
         if (mode === "dark") {
             document.body.classList.add("dark-mode");
-            modeSwitcher.textContent = 'Switch to Light Mode';
+            modeSwitcher.textContent = 'Light Mode';
         } else {
             document.body.classList.remove("dark-mode");
-            modeSwitcher.textContent = 'Switch to Dark Mode';
+            modeSwitcher.textContent = 'Dark Mode';
         }
 
         const toggleModeBtn = document.getElementById("mode-switcher");
         toggleModeBtn.addEventListener("click", () => {
             const currentMode = document.body.classList.contains("dark-mode") ? "light" : "dark";
             if(currentMode == "light"){
-                modeSwitcher.textContent = 'Switch to Dark Mode';
+                modeSwitcher.textContent = 'Dark Mode';
             }else{
-                modeSwitcher.textContent = 'Switch to Light Mode';
+                modeSwitcher.textContent = 'Light Mode';
             }
             console.log(currentMode);
             localStorage.setItem("mode", currentMode);
