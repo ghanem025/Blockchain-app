@@ -37,7 +37,6 @@ Blockchain technology has attracted significant attention in various industries 
 \end{abstract}
 % TODO: add keywords
 
-
 \section{Introduction}
 Managing health records is a critical aspect of the healthcare industry. Traditional methods of health record management are limited by factors such as centralized control, limited patient autonomy, and security risks. The growth of blockchain technology has provided a promising alternative to these challenges by introducing a decentralized, secure, and transparent method of health record management. This work aims to explore the potential of using a blockchain based public health record system (PHR). We present a prototype implementation of a blockchain-based PHR system, and discuss the challenges and limitations of our implementation that need to be addressed for practical use cases. Additionally, we focus on analyzing the benefits and drawbacks of using blockchain technology for PHR implementations, the nature of decentralization in PHRs, the use of encryption standards like RSA to safeguard patient privacy, and networking infrastructure.
 
@@ -76,13 +75,10 @@ Additionally, the blockchain class contains various aspects relating to networki
 \label{fig:encryption_encryption}
 \end{figure}
 
-% TODO:
-%!!!ADD MORE HERE!!! add other subsections beyond blockchain structure and also add more sub-subsections explaining blockchain structure further.
-
 \subsection{Encryption}
 Patient privacy is a critical aspect of a functional PHR implementation. In order to preserve the dignity and privacy of patients, it is vital that their data is never provided to anyone else without explicit consent. This poses a challenge to our decentralized blockchain implementation, where anyone is mean to be able to host a copy of all of the data contained on the blockchain. This also applies to healthcare providers - we decided that patients should be able to control what, if any, providers have access to their data.
 
-The solution that we arrived at for this problem was to use a form of asymmetric encryption to encrypt all sensitive fields before they are added to the blockchain. We decided to use RSA for our prototype due to simplicity \cite{menezes_van_oorschot_vanstone_2001}, however there are potentially more suitable encryption standards that should be used for a production use case as discussed in \ref{limitations:encryption}. % consider changing this citation to fit more naturally in the paragraph. New sentence?
+The solution that we arrived at for this problem was to use a form of asymmetric encryption to encrypt all sensitive fields before they are added to the blockchain. We decided to use RSA for our prototype due to simplicity \cite{menezes_van_oorschot_vanstone_2001}, however there are potentially more suitable encryption standards that should be used for a production use case as discussed in \ref{limitations:encryption}.
 
 When a patient's record is added to the blockchain, we require the public encryption key associated with the given patient to be provided. The plain-text provided for the record is then encrypted using the provided public key. Unreadable cipher-text is what is then added to the blockchain.
 
@@ -104,7 +100,6 @@ To decrypt the transaction, the patient must use the doctor's public key. The pa
 Once the data has been decrypted, it can be encrypted with the doctor's public key and sent back to the doctor, ensuring that any data sent between nodes is protected against anyone who intercepts the communications. Once the doctor receives the data that is now encrypted using their public key, they can decrypt it using their private key.
 
 Due to the limited nature of our networking implementation, there is further discussion of points where it can be expanded upon in Section \ref{improvements:networking}. 
-% A smart contract implementation for a feature similar to what is described in the current section is also provided in Algorithm \ref{array-sum}.
 
 \begin{figure}[h]
 \centering
@@ -127,6 +122,7 @@ Patients are able to use the app to generate key pairs and view their health rec
 There are several aspects to consider regarding the limitations of our PHR system. Some of these limitations are due to choices we made, whereas others are unavoidable consequences of blockchain technology.
 
 \subsubsection{Scalability}
+\label{limitations:scalability}
 Scalability refers to a blockchain's ability to handle increasing transaction volume and data storage as the blockchain grows. Scalability has been a significant challenge in the adoption of blockchain technology, as it can limit the number of transactions the network can process and increase the time required to validate new transactions.
 
 Within our implementation, there are aspects that are not very scalable. As more blocks are added to the blockchain, the amount of time it takes to validate the blockchain will increase. The amount of time it takes to traverse the blockchain will also increase, which will affect users by increasing the amount of time it takes to locate all of their records.
@@ -185,16 +181,16 @@ In addition to the security and privacy concerns discussed previously, it should
 
 \subsubsection{Networking Implementation}
 \label{improvements:networking}
-Our blockchain-based PHR system is decentralized which means that there is no central node/network that users will connect to. Instead, users become nodes themselves by hosting a copy of the blockchain and connecting to other nodes. Nodes would usually mine or listen in on other nodes. Mining is the process of adding a new block to the blockchain by performing computational work, in our case proof of work, to validate transactions and create new blocks. When a node makes a request to add a block, all the active nodes will do proof of work on that block (mining) and whomever finishes first would ideally be rewarded with some cryptocurrency or other incentives as discussed in Section \ref{node_incentives}. This mining process helps strengthen the integrity and security of the network by ensuring only valid transactions are added to the blockchain.
+The networking implementation found within our prototype is very limited, as discussed previously. In this section we will describe how networking could be expanded in a future iteration of our prototype.
 
+Our blockchain-based PHR system is decentralized which means that there is no central node/network that users will connect to. Instead, users become nodes themselves by hosting a copy of the blockchain and connecting to other nodes. Nodes would usually mine or listen in on other nodes. Mining is the process of adding a new block to the blockchain by performing computational work, in our case proof of work, to validate transactions and create new blocks. When a node makes a request to add a block, all the active nodes will do proof of work on that block (mining) and whomever finishes first would ideally be rewarded with some cryptocurrency or other incentives as discussed in Section \ref{node_incentives}. This mining process helps strengthen the integrity and security of the network by ensuring only valid transactions are added to the blockchain.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{images/network.png}
-\caption{This diagram provides a visual representation of how our decentralized PHR blockchain network would operate.}
+\caption{This diagram presents a visual representation of how our decentralized PHR blockchain network would operate.}
 \label{fig:network_diagram}
 \end{figure}
-
 
 \subsection{Intended Use Case}
 From our analysis of the functionality and limitations of our system, we believe that it is best to be used alongside a traditional health record database. Blockchain-specific benefits like patient autonomy over their own records will be limited, however we do not currently have solutions in place to overcome the major limitations of our system as discussed in the previous section.
@@ -205,42 +201,24 @@ Having the blockchain system implemented in parallel will still bring many benef
 
 There are still potential downsides of this approach, the greatest of which is cost. It will cost a lot more to run two redundant systems than it would to just run one. This approach should be considered for implementation in stable environments with the financial capacity to support two systems in parallel. Additionally, patients would also still have to make sure that their key is kept hidden from outsiders, otherwise their data will be permanently compromised as described previously.
 
-
-
-
-
 \section{Industry Analysis}
-Blockchain-based PHR systems are a rapidly evolving area of research, with new findings emerging constantly. These systems have been gaining popularity due to their potential to address several long-standing issues in healthcare data management. Research papers we have cited use a decentralized blockchain, although some opt for a centralized system that is more similar to our current infrastructure. In this section take a look at the limitations and benefits of using a blockchain PHR system. 
+Blockchain-based PHR systems are a rapidly evolving area of research that have gained popularity due to their potential to address several long-standing issues in healthcare data management.
 
 \subsection{Scalability}
 \label{industryanalysis:scalability}
-One of the main limitations of a blockchain PHR b system is scalability. Scalability is a crucial factor in the context of blockchain as it determines the ability of a blockchain network to process a large number of transactions and store vast amounts of data. Scalability has always been a topic of debate in the blockchain community, particularly when it comes to decentralized blockchains, which are immutable and store all data permanently.
+Scalability is a major challenge of a blockchain-based PHR system. It is a crucial factor in the context of blockchain systems as it determines the ability of a blockchain network to handle high transaction volumes and store vast amounts of data. Scalability has been a widely discussed topic among blockchain researchers, particularly with the use of decentralized blockchains which are immutable and lack any form of centralized control. Many of the issues discussed in Section \ref{limitations:scalability} apply broadly to the industry, and many of the scalability-related issues we encountered during development of our prototype are active areas of research that have yet to be fully solved.
 
-It is a critical consideration when designing blockchain systems for medical records, as the size and complexity of the data being stored can significantly impact system performance. For example, the storage, encryption, and decryption of large medical images on the blockchain can consume significant computational resources, resulting in longer access times for users. Additionally, as the number of users on the blockchain grows, transaction verification times can increase exponentially, leading to potential performance issues. This is due to the blockchain's immutable nature, which requires each transaction to be verified and recorded on the ledger, making it increasingly difficult to process transactions as the system grows. Another challenge in achieving scalability is ensuring that data can be efficiently streamed to different devices, especially in a distributed network where nodes may have varying bandwidth and processing capabilities. Addressing these scalability concerns is critical for the successful implementation of blockchain-based PHR systems. Overall establishing a decentralized PHR blockchain can be a challenging task, especially for the long term where the system will continue to grow in size. This growth will make it increasingly difficult for transactions to be verified. This is an important aspect to consider for the future of blockchain technology.
+\subsubsection{Off-Chain Storage and Processing}
+Off-chain data storage an approach that can be used to enhance a blockchain's potential for scalability. Off-chain data storage involves storing data off of the blockchain, usually in the form of an InterPlanetary File System (IPFS) or a secure database. It allows certain data or functions to be processed outside of the blockchain network, freeing up resources and allowing for faster transaction processing. This can potentially increase the efficiency of the network and result in lower transaction fees. For example, medical images can be encrypted and stored off-chain inside an IPFS. If a healthcare provider requests a patient's records, the blockchain would only handle the verification process through a smart contract, while the decryption and delivery of the data would be done off-chain. Essentially, this approach delegates the task of storing and processing data to an off-chain system, while the blockchain keeps track of who has authorization to view this data.
 
-\subsubsection{Off-chain storage and processing}
-Off-chain storage is a potential solution some take to enhance there blockchains scalability. off-chain storage is storing data off of the blockchain. Usually in the form of an InterPlanetary File System (IPFS) or a secure database. It allows certain data or functions to be processed outside of the blockchain network. This frees up resources and allows for faster transaction processing. This can significantly increase the efficiency of the network and decrease transaction fees. An example would be storing medical images on an IPFS. Instead of storing this data off-chain, it can be encypted and stored off-chain inside an IPFS. If a health care provider where to request a patients records, the blockchain would only do the verification process (through a smart contract), the decryption and delivery of the data would be done off-chain. Essential this approach takes the task of storing and processing data, delegates it to an off-chain system, and the blockchain keeps track of who has authorization to view this data. 
+The use of off-chain data storage/processing also introduces potential issues that must be considered. A significant concern is the potential privacy and security risks that off-chain data storage might introduce. Since off-chain storage may not follow the same security protocols as a blockchain, it may not be immutable in nature, and data may be deleted or edited.
 
-The use of off-chain storage/processing also introduces potential issues that must considered. A major concern is the privacy and security risk that off-chain storage may introduce. Since Off-chain storage may not follow the same security protocols that a blockchain would, It also may not be immutable in nature and data may be deleted or edited. For those who want a completely decentralized and immutable approach this can be a deterrent. 
+Data availability is another related concern. Depending on the specific off-chain storage solution, a third-party might be introduced that would manage or maintain the infrastructure. For example, a hospital may have control over the off-chain data and could edit or remove data, which could compromise data privacy and security. While this approach has potential benefits in terms of scalability and efficiency, it may compromise data privacy, as other nodes would not be able to ensure that the data has not been tampered with. 
 
-Data availability is another concern. Depending on the specific off-chain storage solution, a third-party might be introduced that would manage or maintain the infrastructure. For example, a hospital may have control over the off-chain data and could edit or remove data, which could compromise data privacy and security. While this approach can be beneficial in terms of scalability and efficiency, it can also compromise data privacy as other nodes would not be able to ensure that the data has not been tampered with. This is a common theme, in order to increase privacy and security, scalability needs to be sacrificed and vise-versa. Overall, while off-chain storage may be a solution for some, it comes with certain costs that users my not be willing to compromise on.
-
-\subsection{Privacy}
-While a blockchain can provide strong security, anonymity and immutability, this can also be a double-edged sword. A decentralized blockchain is immutable, which means that once a patient's record is on the chain, it cannot be removed. Patients are unable to erase their records, which  not only goes against the patient's wishes but it also goes against the regulations of the GDPR. The GDPR states that a patient should have the right to data erasure in article 17 (\url{https://gdpr-info.eu/art-17-gdpr/}). As a result there is an ongoing legal and ethical debate surrounding the use of blockchain-based PHR systems. Also, when it comes to storing data such as medical records, there is a significant demand for proper security measures to be taken to ensure the anonymity of the patients.
-
-\subsubsection{Data breaches}
-A potential privacy concern in a blockchain-based PHR system is related to data breaches. Since the blockchain will be immutable, the data stored on the chain will remain there permanently. For a PHR this information may include, names, age, addresses and medical history. This information can be used to easily identify a person. Attackers may find vulnerabilities in the system which can allow them to gain access to this sensitive information. This can be avoided by implementing strong encryption protocols and a strong decentralized network with a diversified set of nodes to prevent 51 percent attacks. Additionally patients must be educated on the importance of keeping there private key secure and how to identify/avoid phishing attacks.
-
-\subsubsection{Patient information}
-Another issue is incomplete patient information. In most blockchain-based PHR systems, patients are responsible for maintaining their own medical records, there is no authority that can verify the accuracy of there medical records. This could lead to misdiagnosis or incorrect treatment. One way to address this issue is by only giving health care providers the ability to diagnosis patients, as done in our implementation. By giving patients control over their medical records, they can choose to grant or deny access to healthcare providers. This empowers patients to maintain privacy with there information, while also entrusting that their medical records contain accurate information.
-
-
-
+This appears to be a common theme: in order to increase privacy and security, scalability needs to be sacrificed and vice versa. Overall, off-chain storage provides solutions to longstanding issues with blockchain technology, however it comes with significant compromises that need to be carefully assessed if it is to be implemented.
 
 \section{Conclusion}
-
-
-
+In conclusion, blockchain technology presents an exciting opportunity to revolutionize the traditional methods of data storage and management in the opportunity. Our implementation of a prototype for what this system could look like provides insights into the many benefits of using this technology, such as greater patient autonomy, security, transparency, and privacy while also acknowledging the challenges and limitations that it would face if deployed in practical use cases. Our analysis of the industry shows there are some solutions to the problems our prototype faced, however it also showed us that there is a lot more research that needs to be done, specifically in terms of scalability and the lack of legal precedent for blockchain technology in the healthcare industry. Overall, the potential benefits of blockchain technology in PHR management make it a promising area for future research and development.
 
 \nocite{nakamoto2008bitcoin}
 \nocite{zanbaghi_samet_2022}
