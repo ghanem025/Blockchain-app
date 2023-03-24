@@ -191,7 +191,7 @@ Our blockchain-based PHR system is decentralized which means that there is no ce
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{images/network.png}
-\caption{This diagram provides a visual representation of how a decentralized PHR blockchain network would operate.}
+\caption{This diagram provides a visual representation of how our decentralized PHR blockchain network would operate.}
 \label{fig:network_diagram}
 \end{figure}
 
@@ -207,32 +207,14 @@ There are still potential downsides of this approach, the greatest of which is c
 
 
 
-% \subsubsection{Smart contract Implementation}
-% Algorithm \ref{array-sum} presents an example implementation of a smart contract for a PHR blockchain system.
-% % \begin{algorithm}
-% % \caption{Doctor Signature Authorization Smart Contract Pseudocode}
-% % \label{array-sum}
-% % \begin{algorithmic}[1]
-% % \Procedure{SmartContract}{$A$}
-% %     \State $authorizedDoctors = $ list of authorized doctors
-% %     \Function {CheckSignature}{signature}
-% %         \If {doctor in authorizedDoctors}
-% %         \EndIf
-        
-% %         \State Return $sum$
-% %     \EndFunction
-% % \EndProcedure
-% % \end{algorithmic}
-% % \end{algorithm}
 
-% This implementation can be customized to fit different requirements/regulations, making it a versatile solution for PHR management.
 
 \section{Industry Analysis}
 Blockchain-based PHR systems are a rapidly evolving area of research, with new findings emerging constantly. These systems have been gaining popularity due to their potential to address several long-standing issues in healthcare data management. Research papers we have cited use a decentralized blockchain, although some opt for a centralized system that is more similar to our current infrastructure. In this section take a look at the limitations and benefits of using a blockchain PHR system. 
-% TODO: analyze status of industry
-\subsection{Scalability}
-One of the main limitations of a blockchain PHR b system is scalability. Scalability is a crucial factor in the context of blockchain as it determines the ability of a blockchain network to process a large number of transactions and store vast amounts of data. Scalability has always been a topic of debate in the blockchain community, particularly when it comes to decentralized blockchains, which are immutable and store all data permanently.
 
+\subsection{Scalability}
+\label{industryanalysis:scalability}
+One of the main limitations of a blockchain PHR b system is scalability. Scalability is a crucial factor in the context of blockchain as it determines the ability of a blockchain network to process a large number of transactions and store vast amounts of data. Scalability has always been a topic of debate in the blockchain community, particularly when it comes to decentralized blockchains, which are immutable and store all data permanently.
 
 It is a critical consideration when designing blockchain systems for medical records, as the size and complexity of the data being stored can significantly impact system performance. For example, the storage, encryption, and decryption of large medical images on the blockchain can consume significant computational resources, resulting in longer access times for users. Additionally, as the number of users on the blockchain grows, transaction verification times can increase exponentially, leading to potential performance issues. This is due to the blockchain's immutable nature, which requires each transaction to be verified and recorded on the ledger, making it increasingly difficult to process transactions as the system grows. Another challenge in achieving scalability is ensuring that data can be efficiently streamed to different devices, especially in a distributed network where nodes may have varying bandwidth and processing capabilities. Addressing these scalability concerns is critical for the successful implementation of blockchain-based PHR systems. Overall establishing a decentralized PHR blockchain can be a challenging task, especially for the long term where the system will continue to grow in size. This growth will make it increasingly difficult for transactions to be verified. This is an important aspect to consider for the future of blockchain technology.
 
@@ -253,25 +235,15 @@ A potential privacy concern in a blockchain-based PHR system is related to data 
 Another issue is incomplete patient information. In most blockchain-based PHR systems, patients are responsible for maintaining their own medical records, there is no authority that can verify the accuracy of there medical records. This could lead to misdiagnosis or incorrect treatment. One way to address this issue is by only giving health care providers the ability to diagnosis patients, as done in our implementation. By giving patients control over their medical records, they can choose to grant or deny access to healthcare providers. This empowers patients to maintain privacy with there information, while also entrusting that their medical records contain accurate information.
 
 
-\subsection{Usability}
-As a relatively new technology, a Blockchain system can be challenging for non-technical users to understand and fully utilize. This could lead to lose of access or theft of sensitive data. Furthermore verification time of each transaction can be slow due to the decentralized nature of the blockchain. Transaction times will continue to increase slowing down the process of accessing or updating patient records. Another significant issue is interoperability - blockchain-based PHR systems are still a new area of study and would need to establish a standard protocol or format for storing/exchanging data. Failure to address this could lead to difficulties in different systems  communicating with each other, limiting the usefulness of a blockchain-based PHR system in a broader healthcare context.
 
-\subsubsection{User Interface}
-User Interfaces (UIs) play a crucial role in the usability of any technology, especially PHR systems, as the user base can range from adults to the elderly. Blockchain technology, in particular, can be complex and difficult for non-technical users to understand. A poorly designed UI can exacerbate the difficulties that users face with an already complex system. A well-designed UI can guide users on how to generate keys and manage there health records, as demonstrated in our implementation. Including a manual/instructions page can further facilitate users' navigation and understanding of this new technology, helping to promote a health ecosystem and keeping patients connected to the decentralized network. A lack of a proper UI may discourage users from using a blockchain-based PHR system, instead preferring to rely on traditional healthcare providers to manage their records, as is currently the case.
-
-\subsubsection{Key management}
-Key management is an essential aspect of any blockchain system, especially for blockchain-based PHR systems. Blockchains rely on cryptographic keys to secure the data. Users must securely manage their private key in order to maintain control over there medical records, this can be difficult for users to manage. One of the challenges of key management is to maintain a balance between usability and security. A patient needs to ensure hat their private key is stored securely o prevent unauthorized access to their data. This process of securely storing and managing a private key may be complex and burdensome for some patients. If users are not educated about key management it can lead to a loss of access to their medical records. Overall we need to ensure that users are educated on best practices for managing their private keys.
-
-
-\subsection{A new use case}
-The research we have studied look at the PHR blockchain system as a possible replacement to our current infrastructure.
-
-\label{industryanalysis:scalability}
-% explain how scalability has been addressed by other implementations
-% talk about sharding and off chain databases
-% TODO: tradeoff triangle
 
 \section{Conclusion}
-% TODO: write conclusion
+
+
+
+
+\nocite{nakamoto2008bitcoin}
+\nocite{zanbaghi_samet_2022}
+\nocite{ghadamyari_samet_2020}
 \printbibliography
 \end{document}
