@@ -14,7 +14,7 @@ with open('private_key.pem', 'r') as f:
     private_key_data = f.read()
 private_key = serialization.load_pem_private_key(private_key_data.encode(), password=None)
 
-message = b'I am Dr. Balls I would like to view your PHR plz'
+message = b'I am a Doctor and would like to view your PHR'
 signature = private_key.sign(
     message,
     padding.PSS(
@@ -29,9 +29,12 @@ contract = b.SmartContract()
 
 if contract.check_signature(public_key_data, signature, message):
     print("doctor verified")
-    data = b.send_request(transaction_id, public_key_data)
-    decoded = data.decode()
-    block_data = json.loads(decoded)
+    data = b.send_request(transaction_id, public_key_data, signature, message)
+    try:
+        decoded = data.decode()
+        block_data = json.loads(decoded)
+    except:
+        sys.exit("Error reading data, make sure you entered the correct transaction id")
 
     fields = ['diagnosis', 'doctor', 'symptoms', 'treatment', 'prescription']
     import base64
@@ -45,12 +48,12 @@ if contract.check_signature(public_key_data, signature, message):
             )
         ).decode('utf-8')
     print(
-        f'''
-          Diagnosis: {block_data['diagnosis']}
-          Doctor: {block_data['doctor']} 
-          Symptoms: {block_data['symptoms']}
-          Treatment: {block_data['treatment']}
-          Prescription: {block_data['prescription']}
-        '''
+f'''
+    Diagnosis: {block_data['diagnosis']}
+    Doctor: {block_data['doctor']} 
+    Symptoms: {block_data['symptoms']}
+    Treatment: {block_data['treatment']}
+    Prescription: {block_data['prescription']}
+'''
     )
 

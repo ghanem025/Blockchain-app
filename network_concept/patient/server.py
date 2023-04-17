@@ -1,5 +1,6 @@
 import socket
 import pickle
+from blockchain import Blockchain
 
 HOST = '0.0.0.0'
 PORT = 5000 
@@ -36,9 +37,15 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 break
             # Process the received data here
             loaded_data = pickle.loads(data)
-            public_key_data, block = loaded_data
+            public_key_data, signature, message, block = loaded_data
             print("we got the data")
             print(public_key_data)
+            b = Blockchain()
+            contract = b.SmartContract()
+            if not contract.check_signature(public_key_data, signature, message):
+                print("WARNING DOCTOR IS NOT VERIFIED TO MAKE REQUEST")
+                conn.sendall(b'You are not allowed to access this data')
+    
             block = pickle.loads(block)
             temp_dict = dict(block.__dict__)
             fields = ['diagnosis', 'doctor', 'symptoms', 'treatment', 'prescription']

@@ -59,7 +59,8 @@ HiDBog99qUMyoPfqRQMRIYqAwk/Dc32bfJct9V7R2rzMPQAc2VZGYcyCDbwtUF8Z
 dQgxzwijy6EGMDuNAPsD/Hfj0ekvnf5+LzeAfLBbV0q7Je8GM7oFeDVBeSnBCTUm
 SwKMMcyyNtKnmMoApNVEPNnHUCj85xmDYwBlxRO6HBw5AzSczlI2w2pyo729+dvl
 nbizRpaGU8gGv3BODS3V9Q0CAwEAAQ==
------END PUBLIC KEY-----"""
+-----END PUBLIC KEY-----
+"""
             # check the auth_doctor dict and see if they are there
             # if they are not the contract will refuse the transaction.
             # otherwise we continue s\
@@ -99,7 +100,7 @@ nbizRpaGU8gGv3BODS3V9Q0CAwEAAQ==
             with conn:
                 print('Connected by', addr)
                 while True:
-                    data = conn.recv(4096)
+                    data = conn.recv(8192)
                     if not data:
                         print("there is no data")
                         break
@@ -115,7 +116,7 @@ nbizRpaGU8gGv3BODS3V9Q0CAwEAAQ==
                         prescription: {data_variable.prescription}
                         ''')
                     
-                    # proof_of_work = self.add_new_transaction(data_variable)
+                    proof_of_work = self.add_new_transaction(data_variable)
 
     def wait_for_block(self):
         HOST = '0.0.0.0'
@@ -153,34 +154,47 @@ nbizRpaGU8gGv3BODS3V9Q0CAwEAAQ==
                     conn.sendall(bytes(msg, 'utf-8'))
 
 
-    def send_request(self, transaction_id, public_key):
+    def send_request(self, transaction_id, public_key, signature, message):
         HOST = '127.0.0.1'  # The server's hostname or IP address
         PORT = 5000       # The port used by the server
+        transaction = False
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             try:
                 s.connect((HOST, PORT))
             except ConnectionRefusedError:
                 print("Error: Could not connect to other nodes, there might not be other nodes active")
                 exit()
-            print(f'id is {transaction_id}')
             fields = ['diagnosis', 'doctor', 'symptoms', 'treatment', 'prescription']
             for block in self.chain:
                 temp_dict = dict(block.__dict__)
                 if temp_dict['uuidOne'] in transaction_id: # come back for performance optimization
                     block_data = pickle.dumps(block)
-                    data = (public_key.encode(), block_data)
+                    data = (public_key.encode(), signature, message, block_data)
                     bytes_data = pickle.dumps(data)
-                    s.sendall(bytes_data)
+                    transaction = True
+            print(f'id is {transaction_id}')
 
-            return s.recv(16276)
+            if transaction == True:
+                s.sendall(bytes_data)
+                return s.recv(16384)
+            else:
+                data = ('', ' ' , ' ', ' ')
+                bytes_data = pickle.dumps(data)
+                print("This is not a correct transaction id")
+                s.close()
+                # s.sendall(bytes_data)
+            
+
+            
+
 
     def send_block(self,first_block):
         HOST = '127.0.0.1'  # The server's hostname or IP address
         PORT = 5000       # The port used by the server
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect((HOST, PORT))
-            s.sendall(b'hi eeeeeeeee hi')
-            data = s.recv(1024)
+            s.sendall(pickle.dumps(first_block))
+            data = s.recv(8192)
             print('Received:', data)
 
 
@@ -205,7 +219,7 @@ nbizRpaGU8gGv3BODS3V9Q0CAwEAAQ==
         
     def create_genesis_block(self):
         uuidOne = uuid.uuid1()
-        first_block = Block(str(uuidOne) ,"flu", "Dr.Balls", "itchy ball", "amputation", "crack", 0, [], time.strftime('%X %x %Z'), "0") # I used time.strftime for an acurate date
+        first_block = Block(str(uuidOne) ," ", " ", " ", " ", " ", 0, [], time.strftime('%X %x %Z'), "0") # I used time.strftime for an acurate date
         first_block.hash = first_block.create_hash()
         self.chain.append(first_block)
         self.save_chain()

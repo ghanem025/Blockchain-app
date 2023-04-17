@@ -45,17 +45,47 @@ class Blockchain:
 
     class SmartContract:
 
-        def check_signature(self, key):
-            # check the auth_doctor dict and see if they are there
-            # if they are not the contract will refuse the transaction.
-            # otherwise we continue s\
-            if key.strip():
-                print("request allowed")
-                # self.wait_for_data()
+        def check_signature(self, key, signature, message):
+            # auth_doctor is a verified doctors public key, this would usally be a list of verified doctors that the
+            # patient would give to the smart contract.
+            directory = "./authorized_doctors"
+            auth_doctors = []
+
+            for files in os.listdir(directory):
+                if (files.endswith(".pem")):
+                    with open(os.path.join(directory, files), "r") as f:
+                        file_contents = f.read()
+                        auth_doctors.append(file_contents)
+
+            # check the auth_doctors list.
+            # if they are not in the list the contract will refuse the transaction.
+            # otherwise we continue 
+            from cryptography.hazmat.primitives.asymmetric import padding, rsa
+            from cryptography.hazmat.primitives import serialization, hashes
+            from cryptography.exceptions import InvalidSignature
+            if key:
+                public_key = serialization.load_pem_public_key(key)
+            else:
+                print("Could not read public key")
+                return False
+            if key.decode() in auth_doctors:
+                try:
+                    public_key.verify(
+                        signature,
+                        message,
+                        padding.PSS(
+                            mgf=padding.MGF1(hashes.SHA256()),
+                            salt_length=padding.PSS.MAX_LENGTH
+                        ),
+                        hashes.SHA256()
+                    )
+                    print('Signature is valid')
+                except InvalidSignature:
+                    print('Signature is invalid')
                 return True
             else:
                 print("request not allowed")
-                return False
+                return False 
     
     def wait_for_request(self):
         HOST = '0.0.0.0'
@@ -85,7 +115,7 @@ class Blockchain:
                         prescription: {data_variable.prescription}
                         ''')
                     
-                    # proof_of_work = self.add_new_transaction(data_variable)
+                    proof_of_work = self.add_new_transaction(data_variable)
 
     def wait_for_block(self):
         HOST = '0.0.0.0'
@@ -153,7 +183,7 @@ class Blockchain:
         
     def create_genesis_block(self):
         uuidOne = uuid.uuid1()
-        first_block = Block(str(uuidOne) ,"flu", "Dr.Balls", "itchy ball", "amputation", "crack", 0, [], time.strftime('%X %x %Z'), "0") # I used time.strftime for an acurate date
+        first_block = Block(str(uuidOne) ," ", " ", " ", " ", " ", 0, [], time.strftime('%X %x %Z'), "0") # I used time.strftime for an acurate date
         first_block.hash = first_block.create_hash()
         self.chain.append(first_block)
         self.save_chain()
