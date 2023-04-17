@@ -38,8 +38,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             # Process the received data here
             loaded_data = pickle.loads(data)
             public_key_data, signature, message, block = loaded_data
-            print("we got the data")
-            print(public_key_data)
+            print("Block data received")
             b = Blockchain()
             contract = b.SmartContract()
             if not contract.check_signature(public_key_data, signature, message):
@@ -69,9 +68,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                         label=None
                     )
                 ).decode('utf-8')
-            print(temp_dict)
             temp_dict = encrypt_data(temp_dict, public_key_data)
-            print(temp_dict)
             import json
             json_string = json.dumps(temp_dict)
             conn.sendall(json_string.encode())
