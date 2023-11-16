@@ -36,12 +36,6 @@ def send_request():
         hashes.SHA256()
     )
 
-    # b = Blockchain()
-    # contract = b.SmartContract()
-    # if contract.check_signature(transactions, signature, message):
-    #     print("contract working")
-    #     b.send_request(transaction_id)
-
     return render_template('send_request.html')
 
 
