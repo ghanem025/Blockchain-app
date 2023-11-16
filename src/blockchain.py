@@ -38,38 +38,7 @@ class Blockchain:
         self.host = self.get_host()
         self.port = 5000
         self.nodes = {} # list of all the nodes on the network
-        # self.contract = self.SmartContract()
 
-    # class SmartContract:
-
-    #     def check_signature(self, key, signature, message):
-    #         # check the auth_doctor dict and see if they are there
-    #         # if they are not the contract will refuse the transaction.
-    #         # otherwise we continue s\
-    #         from cryptography.hazmat.primitives.asymmetric import padding, rsa
-    #         from cryptography.hazmat.primitives import serialization, hashes
-    #         from cryptography.exceptions import InvalidSignature
-    #         public_key = serialization.load_pem_public_key(key.encode())
-    #         if key.strip():
-    #             try:
-    #                 public_key.verify(
-    #                     signature,
-    #                     message,
-    #                     padding.PSS(
-    #                         mgf=padding.MGF1(hashes.SHA256()),
-    #                         salt_length=padding.PSS.MAX_LENGTH
-    #                     ),
-    #                     hashes.SHA256()
-    #                 )
-    #                 print('Signature is valid')
-    #             except InvalidSignature:
-    #                 print('Signature is invalid')
-    #             # self.send_request()
-    #             return True
-    #         else:
-    #             print("request not allowed")
-    #             return False
-    
     def wait_for_request(self):
         HOST = '0.0.0.0'
         PORT = 5000 
@@ -163,7 +132,8 @@ class Blockchain:
         
     def create_genesis_block(self):
         uuidOne = uuid.uuid1()
-        first_block = Block(str(uuidOne) ,"flu", "Dr.Balls", "itchy ball", "amputation", "crack", 0, [], time.strftime('%X %x %Z'), "0") # I used time.strftime for an acurate date
+        # I used time.strftime for an accurate date
+        first_block = Block(str(uuidOne) ,"flu", "Dr. Smith", "sore throat", "medication, rest", "Advil", 0, [], time.strftime('%X %x %Z'), "0") 
         first_block.hash = first_block.create_hash()
         self.chain.append(first_block)
         self.save_chain()
