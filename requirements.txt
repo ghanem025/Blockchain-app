@@ -1,5 +1,4 @@
 flask==2.2.3
 cryptography==39.0.1
-vyper==0.2.11
 requests==2.31.0
 Werkzeug==2.2.2
